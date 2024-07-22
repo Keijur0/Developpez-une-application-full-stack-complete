@@ -8,9 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NonNull;
 
 /**
  * Represents a topic in the system.
+ * 
+ * @version 1.0
+ * @since 2024-07-22
  */
 @Data
 @Entity
@@ -28,7 +32,14 @@ public class Topic {
 	/**
 	 * Topic's name.
 	 */
+	@NonNull
 	@Column(nullable = false)
 	private String name;
-	
+
+	/**
+	 * Topic's description
+	 */
+	@NonNull
+	@Column(nullable = false)
+	private String description;
 }
