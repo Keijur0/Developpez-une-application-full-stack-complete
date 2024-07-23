@@ -16,6 +16,9 @@ public class TopicService implements ITopicService {
 		this.topicRepository = topicRepository;
 	}
 
+	/**
+	 * Retrieves all topics
+	 */
 	@Override
 	public List<Topic> getTopics() {
 		return topicRepository.findAll();
