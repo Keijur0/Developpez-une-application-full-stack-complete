@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -32,4 +34,12 @@ public interface PostMapper {
     @Mapping(target = "topic", source = "topicId", qualifiedByName = "topicIdToTopicEntity")
     @Mapping(target = "user", source = "authorId", qualifiedByName = "userIdToUserEntity")
     Post toEntity(PostDto postDto);
+
+    /**
+     * Converts a list a Posts to a list of PostDtos
+     * @param posts
+     * @return
+     */
+    List<PostDto> toDto(List<Post> posts);
+
 }

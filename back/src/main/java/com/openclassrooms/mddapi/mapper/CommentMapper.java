@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -33,4 +35,11 @@ public interface CommentMapper {
     @Mapping(target = "post", source = "postId", qualifiedByName = "postIdToPostEntity")
     @Mapping(target = "createdAt", ignore = true)
     Comment toEntity(CommentDto commentDto);
+
+    /**
+     * Converts a Comment entity list to a CommentDto list
+     * @param commentList
+     * @return List<CommentDto>
+     */
+    List<CommentDto> toDto(List<Comment> commentList);
 }
