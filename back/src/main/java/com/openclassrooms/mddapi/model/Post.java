@@ -54,7 +54,7 @@ public class Post {
 	 * Post's author
 	 */
 	@ManyToOne
-	@JoinColumn(name = "author", referencedColumnName = "id")
+	@JoinColumn(name = "author_id", referencedColumnName = "id")
 	private User user;
 
 	/**

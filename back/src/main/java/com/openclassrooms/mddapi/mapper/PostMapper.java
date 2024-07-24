@@ -6,14 +6,30 @@ import org.mapstruct.factory.Mappers;
 
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.model.Post;
+import com.openclassrooms.mddapi.service.MappingService;
 
-@Mapper
+/**
+ * Converts Post entity to PostDto and vice versa
+ */
+@Mapper(componentModel = "spring", uses = {MappingService.class})
 public interface PostMapper {
     PostMapper INSTANCE = Mappers.getMapper(PostMapper.class);
 
+    /**
+     * Converts a Post entity to a PostDto
+     * @param post
+     * @return PostDto
+     */
     @Mapping(target = "topicId", source = "topic.id")
     @Mapping(target = "authorId", source = "user.id")
     PostDto toDto(Post post);
 
+    /**
+     * Converts a PostDto to a Post entity
+     * @param postDto
+     * @return Post
+     */
+    @Mapping(target = "topic", source = "topicId", qualifiedByName = "topicIdToTopicEntity")
+    @Mapping(target = "user", source = "authorId", qualifiedByName = "userIdToUserEntity")
     Post toEntity(PostDto postDto);
 }
