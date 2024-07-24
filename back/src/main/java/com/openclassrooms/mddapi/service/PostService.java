@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.PostDto;
+import com.openclassrooms.mddapi.exception.NotFoundException;
 import com.openclassrooms.mddapi.mapper.PostMapper;
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.model.Topic;
@@ -35,29 +36,30 @@ public class PostService implements IPostService {
 	 * @return
 	 */
 	public PostDto getPost(Long id) {
-		Post post = postRepository.findById(id).orElseThrow();
-		PostDto postDto = PostMapper.INSTANCE.toDto(post);
-		return postDto;
+		Post post = postRepository.findById(id).orElseThrow(() -> new NotFoundException());
+		return PostMapper.INSTANCE.toDto(post);
 	}
 
 	/**
 	 * Creates a post
 	 * @param post
-	 * @return
+	 * @return PostDto
 	 */
-	public Post createPost(Post post) {
-		return postRepository.save(post);
+	public PostDto createPost(PostDto postDto) {
+		Post post = postRepository.save(PostMapper.INSTANCE.toEntity(postDto));
+		return PostMapper.INSTANCE.toDto(post);
 	}
 
 	/**
 	 * Retrieves all posts subscribed by a user
 	 * @param userId
-	 * @return
+	 * @return List<PostDto>
 	 */
-	public List<Post> getSubscribedPosts(Long userId) {
-		User user = userRepository.findById(userId).orElseThrow();
+	public List<PostDto> getSubscribedPosts(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException());
 		List<Topic> subscribedTopics = user.getSubscriptions();
-		return postRepository.findByTopicIn(subscribedTopics);
+		List<Post> subscribedPosts = postRepository.findByTopicIn(subscribedTopics);
+		return PostMapper.INSTANCE.toDto(subscribedPosts);
 	}
 	
 }

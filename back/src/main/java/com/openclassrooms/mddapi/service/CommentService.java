@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.openclassrooms.mddapi.dto.CommentDto;
+import com.openclassrooms.mddapi.exception.NotFoundException;
+import com.openclassrooms.mddapi.mapper.CommentMapper;
 import com.openclassrooms.mddapi.model.Comment;
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.repository.CommentRepository;
@@ -26,12 +29,14 @@ public class CommentService {
     @Autowired
     private PostRepository postRepository;
 
-    public List<Comment> getComments(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
-        return commentRepository.findByPost(post);
+    public List<CommentDto> getComments(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException());
+        List<Comment> postComments = commentRepository.findByPost(post);
+        return CommentMapper.INSTANCE.toDto(postComments);
     }
 
-    public Comment createComment(Comment comment) {
-        return commentRepository.save(comment);
+    public CommentDto createComment(CommentDto commentDto) {
+        Comment comment = commentRepository.save(CommentMapper.INSTANCE.toEntity(commentDto));
+        return CommentMapper.INSTANCE.toDto(comment);
     }
 }
