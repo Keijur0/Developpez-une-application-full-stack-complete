@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -59,9 +62,14 @@ public class User {
     private String password;
 
     /**
-     * User's topic subscriptions
-     */
-    private List<Topic> subscriptions;
+	 * User's topics subscriptions
+	 */
+	@ManyToMany
+	@JoinTable(
+			name = "Subcription",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "topic_id"))
+	private List<Topic> subscriptions;
 
     /**
      * User's creation date
