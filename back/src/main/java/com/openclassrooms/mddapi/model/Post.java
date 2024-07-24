@@ -53,8 +53,8 @@ public class Post {
 	/**
 	 * Post's author
 	 */
-	@NotNull
-	@NotBlank
+	@ManyToOne
+	@JoinColumn(name = "author", referencedColumnName = "id")
 	private User user;
 
 	/**
