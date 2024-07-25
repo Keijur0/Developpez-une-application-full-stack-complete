@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.CreatedDate;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Represents a post in the system
@@ -25,6 +26,7 @@ import lombok.Data;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "posts")
 public class Post {
 
@@ -40,7 +42,7 @@ public class Post {
 	 * Post's topic
 	 */
 	@ManyToOne
-	@JoinColumn(name = "topic_id", referencedColumnName = "id")
+	@JoinColumn(name = "topic_id", referencedColumnName = "topic_id")
 	private Topic topic;
 
 	/**
@@ -54,7 +56,7 @@ public class Post {
 	 * Post's author
 	 */
 	@ManyToOne
-	@JoinColumn(name = "author_id", referencedColumnName = "id")
+	@JoinColumn(name = "author_id", referencedColumnName = "user_id")
 	private User user;
 
 	/**
@@ -68,5 +70,6 @@ public class Post {
 	 * Post's creation date
 	 */
 	@CreatedDate
+	@Column(name = "created_at")
 	private Date createdAt;
 }

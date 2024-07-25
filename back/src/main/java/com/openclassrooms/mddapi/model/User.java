@@ -16,6 +16,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
@@ -26,6 +27,7 @@ import lombok.NonNull;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
 
@@ -66,7 +68,7 @@ public class User {
 	 */
 	@ManyToMany
 	@JoinTable(
-			name = "Subcription",
+			name = "Subcriptions",
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "topic_id"))
 	private List<Topic> subscriptions;

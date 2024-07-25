@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
@@ -19,6 +20,7 @@ import lombok.NonNull;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "topics")
 public class Topic {
 
