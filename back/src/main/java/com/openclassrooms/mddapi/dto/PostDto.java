@@ -4,6 +4,9 @@ import java.util.Date;
 
 import lombok.Data;
 
+/**
+ * Post data to transfer
+ */
 @Data
 public class PostDto {
 
