@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +46,17 @@ public class UserService implements IUserService {
      * @param id
      * @param userDto
      */
-    public void updateUser(Long id, UserDto userDto) {
+    public UserDto updateUser(Long id, UserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
         user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getUsername());
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        return UserMapper.INSTANCE.toDto(savedUser);
+    }
+
+    public List<Topic> getUserSubscriptions(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
+        return user.getSubscriptions();
     }
 
     /**

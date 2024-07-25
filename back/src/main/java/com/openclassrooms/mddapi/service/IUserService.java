@@ -1,6 +1,9 @@
 package com.openclassrooms.mddapi.service;
 
+import java.util.List;
+
 import com.openclassrooms.mddapi.dto.UserDto;
+import com.openclassrooms.mddapi.model.Topic;
 
 /**
  * Service interface for managing users.
@@ -27,8 +30,16 @@ public interface IUserService {
      * 
      * @param id the id of the user to update
      * @param userDto the data transfer object containing the updated details of the user
+     * @return 
      */
-    void updateUser(Long id, UserDto userDto);
+    UserDto updateUser(Long id, UserDto userDto);
+
+    /**
+     * Retrieves a user's subscribed topics.
+     * @param id the unique identifier of the user
+     * @return the list of {@link Topic} the user is subscribed to
+     */
+    List<Topic> getUserSubscriptions(Long id);
 
     /**
      * Subscribes a user to a specific topic.
