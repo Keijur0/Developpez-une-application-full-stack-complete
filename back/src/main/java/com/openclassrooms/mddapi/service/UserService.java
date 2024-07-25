@@ -21,7 +21,7 @@ import com.openclassrooms.mddapi.repository.UserRepository;
  * Interacts with UserRepository.
  */
 @Service
-public class UserService {
+public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepository;

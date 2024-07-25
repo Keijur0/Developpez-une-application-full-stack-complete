@@ -21,7 +21,7 @@ import com.openclassrooms.mddapi.repository.PostRepository;
  */
 
 @Service
-public class CommentService {
+public class CommentService implements ICommentService {
 
     @Autowired
     private CommentRepository commentRepository;
