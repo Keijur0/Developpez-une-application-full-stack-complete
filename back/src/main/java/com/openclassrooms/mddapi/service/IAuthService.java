@@ -1,9 +1,9 @@
 package com.openclassrooms.mddapi.service;
 
+import org.springframework.http.ResponseEntity;
+
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
 import com.openclassrooms.mddapi.payload.request.RegisterRequest;
-import com.openclassrooms.mddapi.payload.response.AuthResponse;
-import com.openclassrooms.mddapi.payload.response.MessageReponse;
 
 /**
  * Interface for authentication services.
@@ -15,15 +15,15 @@ public interface IAuthService {
      * Authenticates a user with the provided login request.
      *
      * @param loginRequest the login request containing the user's credentials
-     * @return an {@link AuthResponse} containing authentication details such as JWT token and user information
+     * @return a {@link ResponseEntity} containing a success or error message
      */
-    AuthResponse login(LoginRequest loginRequest);
+    ResponseEntity<?> login(LoginRequest loginRequest);
 
     /**
      * Registers a new user with the provided registration request.
      *
      * @param registerRequest the registration request containing the user's registration details
-     * @return a {@link MessageReponse} indicating the success or failure of the registration process
+     * @return a {@link ResponseEntity} containing a success or error message
      */
-    MessageReponse register(RegisterRequest registerRequest);
+    ResponseEntity<?> register(RegisterRequest registerRequest);
 }

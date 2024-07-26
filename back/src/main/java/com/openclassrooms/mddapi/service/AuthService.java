@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,10 +45,10 @@ public class AuthService implements IAuthService {
      * Authenticates a user based on the provided login request.
      *
      * @param loginRequest the login request containing the user's username/email and password
-     * @return an {@link AuthResponse} containing the JWT token for the authenticated user
+     * @return a {@link ResponseEntity} containing a success or error message
      */
     @Override
-    public AuthResponse login(LoginRequest loginRequest) {
+    public ResponseEntity<?> login(LoginRequest loginRequest) {
         Authentication auth = authManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsernameOrEmail(), 
@@ -57,24 +58,24 @@ public class AuthService implements IAuthService {
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(loginRequest.getUsernameOrEmail());
         String token = jwtService.generateToken(userDetails);
 
-        return new AuthResponse(token);
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 
     /**
      * Registers a new user based on the provided registration request.
      *
      * @param registerRequest the registration request containing the user's details
-     * @return a {@link MessageReponse} indicating the success or failure of the registration process
+     * @return a {@link ResponseEntity} containing a success or error message
      */
     @Override
-    public MessageReponse register(RegisterRequest registerRequest) {
+    public ResponseEntity<?> register(RegisterRequest registerRequest) {
 
         if(userRepository.existsByEmail(registerRequest.getEmail())) {
-            return new MessageReponse("Email already in use");
+            return ResponseEntity.badRequest().body(new MessageReponse("Email already in use"));
         }
 
         if(userRepository.existsByUsername(registerRequest.getUsername())) {
-            return new MessageReponse("Username already in use");
+            return ResponseEntity.badRequest().body(new MessageReponse("Username already in use"));
         }
 
         User user = new User();
@@ -84,6 +85,6 @@ public class AuthService implements IAuthService {
 
         userRepository.save(user);
 
-        return new MessageReponse("User successfully registered");
+        return ResponseEntity.ok(new MessageReponse("User successfully registered"));
     }
 }
