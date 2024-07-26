@@ -35,10 +35,9 @@ public class SecurityConfig {
         return http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(permit ->
-                permit.antMatchers(
-                    "/api/**"
-                ).permitAll())
-                /* TODO: add authenticated requests */
+                permit.antMatchers("/api/auth/**").permitAll())
+            .authorizeHttpRequests(auth -> 
+                auth.antMatchers("/api/**").authenticated())
             .userDetailsService(userDetailsService)
             .sessionManagement(session -> {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

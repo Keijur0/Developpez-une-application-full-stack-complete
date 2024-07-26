@@ -15,12 +15,16 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
  * Represents a user in the system.
+ * This entity is mapped to the 'users' table in the database.
  * 
  * @version 1.0
  * @since 2024-07-22
@@ -33,6 +37,7 @@ public class User {
 
     /**
      * User's unique ID.
+     * This field is the primary key for the user entity and is auto-generated.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +46,7 @@ public class User {
 
     /**
      * User's unique username.
+     * This field must be non-null, non-blank, and unique across all users.
      */
     @NonNull
     @NotBlank
@@ -49,6 +55,8 @@ public class User {
 
     /**
      * User's unique email address.
+     * This field must be non-null, non-blank, and a valid email format.
+     * It must also be unique across all users.
      */
     @NonNull
     @NotBlank
@@ -58,30 +66,36 @@ public class User {
 
     /**
      * User's password.
+     * This field must be non-null and non-blank.
      */
     @NonNull
     @NotBlank
     private String password;
 
     /**
-	 * User's topics subscriptions
-	 */
-	@ManyToMany
-	@JoinTable(
-			name = "Subcriptions",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "topic_id"))
-	private List<Topic> subscriptions;
+     * User's topics subscriptions.
+     * Represents a many-to-many relationship between users and topics.
+     */
+    @ManyToMany
+    @JoinTable(
+            name = "Subcriptions",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "topic_id"))
+    private List<Topic> subscriptions;
 
     /**
-     * User's creation date
+     * User's creation date.
+     * Automatically set to the timestamp when the user is created.
      */
+    @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
 
     /**
-     * User's account last update date
+     * User's account last update date.
+     * Automatically updated to the timestamp when the user entity is updated.
      */
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
 }
