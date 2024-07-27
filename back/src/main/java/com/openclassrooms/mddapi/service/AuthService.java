@@ -21,7 +21,8 @@ import com.openclassrooms.mddapi.security.service.UserDetailsServiceImpl;
 
 /**
  * Service class for authentication operations.
- * Implements the {@link IAuthService} interface to provide login and registration functionalities.
+ * This class implements the {@link IAuthService} interface to provide 
+ * functionalities such as login and registration of users.
  */
 @Service
 public class AuthService implements IAuthService {
@@ -45,7 +46,7 @@ public class AuthService implements IAuthService {
      * Authenticates a user based on the provided login request.
      *
      * @param loginRequest the login request containing the user's username/email and password
-     * @return a {@link ResponseEntity} containing a success or error message
+     * @return a {@link ResponseEntity} containing an {@link AuthResponse} with the JWT token and user details
      */
     @Override
     public ResponseEntity<?> login(LoginRequest loginRequest) {
@@ -58,14 +59,18 @@ public class AuthService implements IAuthService {
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(loginRequest.getUsernameOrEmail());
         String token = jwtService.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(new AuthResponse(
+                            token,
+                            userDetails.getId(),
+                            userDetails.getUsername(),
+                            userDetails.getEmail()));
     }
 
     /**
      * Registers a new user based on the provided registration request.
      *
      * @param registerRequest the registration request containing the user's details
-     * @return a {@link ResponseEntity} containing a success or error message
+     * @return a {@link ResponseEntity} containing a {@link MessageReponse} with a success or error message
      */
     @Override
     public ResponseEntity<?> register(RegisterRequest registerRequest) {
