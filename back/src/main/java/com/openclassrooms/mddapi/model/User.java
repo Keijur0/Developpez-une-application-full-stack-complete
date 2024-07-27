@@ -78,7 +78,7 @@ public class User {
      */
     @ManyToMany
     @JoinTable(
-            name = "Subcriptions",
+            name = "Subscriptions",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "topic_id"))
     private List<Topic> subscriptions;
