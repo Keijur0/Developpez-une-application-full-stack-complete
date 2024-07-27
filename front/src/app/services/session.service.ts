@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AuthResponse } from '../features/auth/interfaces/responses/authResponse.interface';
+import { SessionInfo } from '../interfaces/sessionInfo.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ import { AuthResponse } from '../features/auth/interfaces/responses/authResponse
 export class SessionService {
 
   public isLoggedIn = false;
-  public authResponse: AuthResponse | undefined;
+  public sessionInfo: SessionInfo | undefined;
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn);
 
@@ -16,14 +16,14 @@ export class SessionService {
     return this.isLoggedInSubject.asObservable();
   }
 
-  public logIn(authResponse: AuthResponse): void {
-    this.authResponse = authResponse;
+  public logIn(sessionInfo: SessionInfo): void {
+    this.sessionInfo = sessionInfo;
     this.isLoggedIn = true;
     this.updateSubject();
   }
 
   public logOut(): void {
-    this.authResponse = undefined;
+    this.sessionInfo = undefined;
     this.isLoggedIn = false;
     this.updateSubject();
   }
@@ -31,6 +31,4 @@ export class SessionService {
   private updateSubject(): void {
     this.isLoggedInSubject.next(this.isLoggedIn);
   }
-
-  constructor() { }
 }
