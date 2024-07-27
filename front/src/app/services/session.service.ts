@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AuthResponse } from '../features/auth/interfaces/authResponse.interface';
+import { AuthResponse } from '../features/auth/interfaces/responses/authResponse.interface';
 
 @Injectable({
   providedIn: 'root'

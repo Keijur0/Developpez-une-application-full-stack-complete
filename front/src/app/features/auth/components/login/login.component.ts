@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/services/session.service';
-import { AuthResponse } from '../../interfaces/authResponse.interface';
-import { LoginRequest } from '../../interfaces/loginRequest.interface';
+import { LoginRequest } from '../../interfaces/requests/loginRequest.interface';
+import { AuthResponse } from '../../interfaces/responses/authResponse.interface';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
