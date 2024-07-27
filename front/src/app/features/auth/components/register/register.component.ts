@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterRequest } from '../../interfaces/requests/registerRequest.interface';
+import { RegisterRequest } from '../../interfaces/registerRequest.interface';
 import { AuthService } from '../../services/auth.service';
 
 @Component({

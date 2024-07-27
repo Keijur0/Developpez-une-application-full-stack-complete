@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SessionInfo } from 'src/app/interfaces/sessionInfo.interface';
 import { SessionService } from 'src/app/services/session.service';
-import { LoginRequest } from '../../interfaces/requests/loginRequest.interface';
-import { AuthResponse } from '../../interfaces/responses/authResponse.interface';
+import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -30,8 +30,8 @@ export class LoginComponent {
   public submit(): void {
     const loginRequest = this.form.value as LoginRequest;
     this.authService.login(loginRequest).subscribe({
-      next: (authResponse: AuthResponse) => {
-        this.sessionService.logIn(authResponse);
+      next: (sessionInfo: SessionInfo) => {
+        this.sessionService.logIn(sessionInfo);
         this.router.navigate(['/posts']);
       },
       error: error => this.onError = true
