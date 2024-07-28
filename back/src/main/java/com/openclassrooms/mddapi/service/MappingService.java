@@ -1,5 +1,8 @@
 package com.openclassrooms.mddapi.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -76,4 +79,18 @@ public class MappingService {
     public Post toPostEntity(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException());
     }
+
+    @Named("topicEntityListToTopicIdList")
+    public List<Long> toTopicEntityList(List<Topic> topicList) {
+        List<Long> idList = new ArrayList<Long>();
+        for(int i = 0; i < idList.size(); i++) {
+            idList.add(toTopicId(topicList.get(i)));
+        }
+        return idList;
+    }
+
+    private Long toTopicId(Topic topic) {
+        return topic.getId();
+    }
+
 }

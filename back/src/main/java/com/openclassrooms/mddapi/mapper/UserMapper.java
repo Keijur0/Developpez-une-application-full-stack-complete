@@ -6,11 +6,12 @@ import org.mapstruct.factory.Mappers;
 
 import com.openclassrooms.mddapi.dto.UserDto;
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.service.MappingService;
 
 /**
  * Converts User entity to UserDto and vice versa
  */
-@Mapper
+@Mapper(componentModel = "spring", uses = {MappingService.class})
 public interface UserMapper {
     
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
@@ -21,6 +22,7 @@ public interface UserMapper {
      * @param user
      * @return UserDto
      */
+    @Mapping(target = "subscriptions", source = "subscriptions", qualifiedByName = "topicEntityListToTopicIdList")
     UserDto toDto(User user);
 
     /**
