@@ -16,5 +16,5 @@ public class UserDto {
     
     private String username;
 
-    private List<Long> subscriptions;
+    private List<Long> subscriptionsId;
 }

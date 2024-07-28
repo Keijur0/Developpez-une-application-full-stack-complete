@@ -30,6 +30,9 @@ public class UserService implements IUserService {
     @Autowired
     private TopicRepository topicRepository;
 
+    @Autowired
+    private UserMapper userMapper;
+
     /**
      * Retrives user by id
      * 
@@ -38,7 +41,7 @@ public class UserService implements IUserService {
      */
     public UserDto getUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
-        return UserMapper.INSTANCE.toDto(user);
+        return userMapper.toDto(user);
     }
 
     /**
@@ -51,7 +54,7 @@ public class UserService implements IUserService {
         user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getUsername());
         User savedUser = userRepository.save(user);
-        return UserMapper.INSTANCE.toDto(savedUser);
+        return userMapper.toDto(savedUser);
     }
 
     public List<Topic> getUserSubscriptions(Long id) {

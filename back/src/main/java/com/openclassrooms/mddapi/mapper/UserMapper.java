@@ -22,7 +22,9 @@ public interface UserMapper {
      * @param user
      * @return UserDto
      */
-    @Mapping(target = "subscriptions", source = "subscriptions", qualifiedByName = "topicEntityListToTopicIdList")
+    @Mapping(target = "subscriptionsId",
+            source = "subscriptions",
+            qualifiedByName = "topicsToTopicIds")
     UserDto toDto(User user);
 
     /**

@@ -30,6 +30,9 @@ public class CommentService implements ICommentService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private CommentMapper commentMapper;
+
     /**
      * Retrieves all comments associated with a specific post.
      * 
@@ -40,7 +43,7 @@ public class CommentService implements ICommentService {
     public List<CommentDto> getComments(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException());
         List<Comment> postComments = commentRepository.findByPost(post);
-        return CommentMapper.INSTANCE.toDto(postComments);
+        return commentMapper.toDto(postComments);
     }
 
     /**
@@ -50,7 +53,7 @@ public class CommentService implements ICommentService {
      * @return the created {@link CommentDto}
      */
     public CommentDto createComment(CommentDto commentDto) {
-        Comment comment = commentRepository.save(CommentMapper.INSTANCE.toEntity(commentDto));
-        return CommentMapper.INSTANCE.toDto(comment);
+        Comment comment = commentRepository.save(commentMapper.toEntity(commentDto));
+        return commentMapper.toDto(comment);
     }
 }
