@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -78,5 +78,5 @@ public class Post {
      */
     @CreatedDate
     @Column(name = "created_at")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 }

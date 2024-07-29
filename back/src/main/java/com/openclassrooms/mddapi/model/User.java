@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -89,7 +89,7 @@ public class User {
      */
     @CreationTimestamp
     @Column(name = "created_at")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     /**
      * User's account last update date.
@@ -97,5 +97,5 @@ public class User {
      */
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 }

@@ -36,7 +36,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(permit ->
                 permit.antMatchers("/api/auth/**").permitAll())
-            .authorizeHttpRequests(auth -> 
+            .authorizeHttpRequests(auth ->
                 auth.antMatchers("/api/**").authenticated())
             .userDetailsService(userDetailsService)
             .sessionManagement(session -> {
