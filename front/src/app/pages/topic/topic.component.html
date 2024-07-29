@@ -4,6 +4,6 @@
         <mat-card-content>
             Description: {{topic.description}}
         </mat-card-content>
-        <button mat-raised-button color="primary" (click)="subscribe()">Subscribe</button> 
+            <button mat-raised-button color="primary" (click)="subscribe(topic.id)" [disabled]="isSubscribed$(topic.id) | async"> S'abonner </button> 
     </mat-card>
 </div>
