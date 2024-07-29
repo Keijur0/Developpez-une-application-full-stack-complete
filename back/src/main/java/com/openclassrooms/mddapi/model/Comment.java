@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
@@ -25,6 +26,7 @@ import lombok.NonNull;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "comments")
 public class Comment {
 
@@ -37,14 +39,14 @@ public class Comment {
 	 * Comment's author
 	 */
 	@ManyToOne
-	@JoinColumn(name = "author_id", referencedColumnName = "id")
+	@JoinColumn(name = "author_id", referencedColumnName = "user_id")
 	private User user;
 
 	/**
 	 * Comment's post
 	 */
 	@ManyToOne
-	@JoinColumn(name = "post_id", referencedColumnName = "id")
+	@JoinColumn(name = "post_id", referencedColumnName = "post_id")
 	private Post post;
 
 	/**
@@ -58,5 +60,6 @@ public class Comment {
 	 * Comment's creation date
 	 */
 	@CreatedDate
-	private Date createdAt;
+	@Column(name = "created_at")
+	private LocalDateTime createdAt;
 }

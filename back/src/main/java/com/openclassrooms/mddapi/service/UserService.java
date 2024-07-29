@@ -1,8 +1,8 @@
 package com.openclassrooms.mddapi.service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.UserDto;
@@ -21,13 +21,20 @@ import com.openclassrooms.mddapi.repository.UserRepository;
  * Interacts with UserRepository.
  */
 @Service
-public class UserService {
+public class UserService implements IUserService {
 
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private TopicRepository topicRepository;
+    private final UserRepository userRepository;
+
+    private final TopicRepository topicRepository;
+
+    private final UserMapper userMapper;
+
+    public UserService(UserRepository userRepository, TopicRepository topicRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.topicRepository = topicRepository;
+        this.userMapper = userMapper;
+    }
 
     /**
      * Retrives user by id
@@ -37,7 +44,7 @@ public class UserService {
      */
     public UserDto getUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
-        return UserMapper.INSTANCE.toDto(user);
+        return userMapper.toDto(user);
     }
 
     /**
@@ -45,11 +52,17 @@ public class UserService {
      * @param id
      * @param userDto
      */
-    public void updateUser(Long id, UserDto userDto) {
+    public UserDto updateUser(Long id, UserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
         user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getUsername());
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        return userMapper.toDto(savedUser);
+    }
+
+    public List<Topic> getUserSubscriptions(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
+        return user.getSubscriptions();
     }
 
     /**

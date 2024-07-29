@@ -1,9 +1,12 @@
 package com.openclassrooms.mddapi.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
+/**
+ * Post data to transfer
+ */
 @Data
 public class PostDto {
 
@@ -17,5 +20,5 @@ public class PostDto {
 
     private String content;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
 }

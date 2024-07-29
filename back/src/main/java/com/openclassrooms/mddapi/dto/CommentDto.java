@@ -2,6 +2,9 @@ package com.openclassrooms.mddapi.dto;
 
 import lombok.Data;
 
+/**
+ * Comment Data to transfer
+ */
 @Data
 public class CommentDto {
 

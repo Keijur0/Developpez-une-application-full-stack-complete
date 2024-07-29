@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.dto;
 
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -13,4 +15,6 @@ public class UserDto {
     private String email;
     
     private String username;
+
+    private List<Long> subscriptionsId;
 }
