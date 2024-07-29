@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.CommentDto;
@@ -24,14 +23,18 @@ import com.openclassrooms.mddapi.repository.PostRepository;
 @Service
 public class CommentService implements ICommentService {
 
-    @Autowired
-    private CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
-    @Autowired
-    private CommentMapper commentMapper;
+    private final CommentMapper commentMapper;
+
+    public CommentService(CommentRepository commentRepository, PostRepository postRepository,
+            CommentMapper commentMapper) {
+        this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
+        this.commentMapper = commentMapper;
+    }
 
     /**
      * Retrieves all comments associated with a specific post.

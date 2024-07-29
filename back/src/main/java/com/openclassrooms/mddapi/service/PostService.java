@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.PostDto;
@@ -24,15 +23,18 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 @Service
 public class PostService implements IPostService {
 
-	@Autowired
-	private PostRepository postRepository;
+	private final PostRepository postRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
-	@Autowired
-	private PostMapper postMapper;
+	private final PostMapper postMapper;
 	
+	public PostService(PostRepository postRepository, UserRepository userRepository, PostMapper postMapper) {
+		this.postRepository = postRepository;
+		this.userRepository = userRepository;
+		this.postMapper = postMapper;
+	}
+
 	/**
 	 * Retrieves a post by id
 	 * @param id

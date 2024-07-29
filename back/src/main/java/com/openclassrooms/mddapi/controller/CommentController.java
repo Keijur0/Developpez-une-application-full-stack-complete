@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,8 +27,11 @@ import com.openclassrooms.mddapi.service.ICommentService;
 @RequestMapping("/api/comment")
 public class CommentController {
 
-    @Autowired
-    private ICommentService commentService;
+    private final ICommentService commentService;
+
+    public CommentController(ICommentService commentService) {
+        this.commentService = commentService;
+    }
 
     /**
      * Retrieves all comments for a specific post.

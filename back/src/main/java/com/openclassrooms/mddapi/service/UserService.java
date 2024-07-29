@@ -3,7 +3,6 @@ package com.openclassrooms.mddapi.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.UserDto;
@@ -24,14 +23,18 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 @Service
 public class UserService implements IUserService {
 
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private TopicRepository topicRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final TopicRepository topicRepository;
+
+    private final UserMapper userMapper;
+
+    public UserService(UserRepository userRepository, TopicRepository topicRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.topicRepository = topicRepository;
+        this.userMapper = userMapper;
+    }
 
     /**
      * Retrives user by id

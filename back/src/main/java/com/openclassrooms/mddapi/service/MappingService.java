@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.openclassrooms.mddapi.exception.NotFoundException;
@@ -36,14 +35,18 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 @Component
 public class MappingService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private TopicRepository topicRepository;
+    private final TopicRepository topicRepository;
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
+
+    public MappingService(UserRepository userRepository, TopicRepository topicRepository,
+            PostRepository postRepository) {
+        this.userRepository = userRepository;
+        this.topicRepository = topicRepository;
+        this.postRepository = postRepository;
+    }
 
     /**
      * Converts a user ID to a {@link User} entity.

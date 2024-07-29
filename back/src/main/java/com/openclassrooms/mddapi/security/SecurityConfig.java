@@ -1,6 +1,5 @@
 package com.openclassrooms.mddapi.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,13 +20,17 @@ import com.openclassrooms.mddapi.security.service.UserDetailsServiceImpl;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private AuthEntryPointImpl authEntryPoint;
+    private final AuthEntryPointImpl authEntryPoint;
 
-    @Autowired
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointImpl authEntryPoint,
+            JwtAuthFilter jwtAuthFilter) {
+        this.userDetailsService = userDetailsService;
+        this.authEntryPoint = authEntryPoint;
+        this.jwtAuthFilter = jwtAuthFilter;
+    }
+
     private JwtAuthFilter jwtAuthFilter;
 
     @Bean

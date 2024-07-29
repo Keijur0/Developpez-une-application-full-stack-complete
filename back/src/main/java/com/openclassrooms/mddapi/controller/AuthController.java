@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
 import com.openclassrooms.mddapi.payload.request.RegisterRequest;
-import com.openclassrooms.mddapi.service.AuthService;
+import com.openclassrooms.mddapi.service.IAuthService;
 
 /**
  * Controller for authentication-related endpoints.
@@ -21,8 +20,11 @@ import com.openclassrooms.mddapi.service.AuthService;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final IAuthService authService;
+
+    public AuthController(IAuthService authService) {
+        this.authService = authService;
+    }
 
     /**
      * Endpoint for user login.
