@@ -53,7 +53,7 @@ public class CommentServiceTest {
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
         when(commentRepository.findByPost(post)).thenReturn(comments);
-        when(commentMapper.toDto(comments)).thenReturn(commentDtos);
+        when(commentMapper.toDtos(comments)).thenReturn(commentDtos);
 
         List<CommentDto> result = commentService.getComments(postId);
 

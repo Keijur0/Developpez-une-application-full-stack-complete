@@ -1,40 +1,74 @@
 package com.openclassrooms.mddapi.mapper;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Named;
 
 import com.openclassrooms.mddapi.dto.UserDto;
+import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
-import com.openclassrooms.mddapi.service.MappingService;
 
 /**
- * Converts User entity to UserDto and vice versa
+ * Provides methods to map between {@link User} entities and {@link UserDto} objects.
+ * <p>
+ * This mapper uses MapStruct to automatically generate the implementation. It converts
+ * a {@link User} entity to a {@link UserDto} and vice versa. The mappings are defined to
+ * handle specific fields and transformations.
+ * </p>
  */
-@Mapper(componentModel = "spring", uses = {MappingService.class})
-public interface UserMapper {
-    
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+@Mapper(componentModel = "spring")
+public abstract class UserMapper {
 
     /**
-     * Converts a User entity to a UserDto.
+     * Converts a {@link User} entity to a {@link UserDto}.
+     * <p>
+     * This method maps the {@link User} entity to a {@link UserDto} while converting the user's
+     * subscriptions to a list of subscription IDs. If the subscriptions are null, an empty list
+     * is used instead.
+     * </p>
      * 
-     * @param user
-     * @return UserDto
+     * @param user the {@link User} entity to convert
+     * @return the corresponding {@link UserDto}
      */
-    @Mapping(target = "subscriptionsId",
-            source = "subscriptions",
-            qualifiedByName = "topicsToTopicIds")
-    UserDto toDto(User user);
+    @Mapping(target = "subscriptionsId", source="subscriptions", qualifiedByName = "topicsToTopicIds")
+    public abstract UserDto toDto(User user);
+
+    /* expression = "java(user.getSubscriptions() == null ? Collections.emptyList() : user.getSubscriptions().stream().map(t -> t.getId()).collect(Collectors.toList()))" */
 
     /**
-     * Converts a UserDto to a User entity.
-     * @param userDto
-     * @return the UserEntity
+     * Converts a {@link UserDto} to a {@link User} entity.
+     * <p> 
+     * This method maps the {@link UserDto} to a {@link User} entity. Certain fields are ignored during
+     * the mapping:
+     * <ul>
+     *     <li>{@code createdAt}: The creation timestamp is not set during the conversion.</li>
+     *     <li>{@code updatedAt}: The last update timestamp is not set during the conversion.</li>
+     *     <li>{@code password}: The password is not included in the conversion to avoid security issues.</li>
+     *     <li>{@code subscriptions}: The subscriptions list is not set, as it is not included in the DTO.</li>
+     * </ul>
+     * </p>
+     * 
+     * @param userDto the {@link UserDto} to convert
+     * @return the corresponding {@link User} entity
      */
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "subscriptions", ignore = true)
-    User toEntity(UserDto userDto);
+    public abstract User toEntity(UserDto userDto);
+
+
+    @Named("topicsToTopicIds")
+    List<Long> toTopicIdList(List<Topic> topicList) {
+        if (topicList == null) {
+            return Collections.emptyList();
+        }
+        return topicList.stream()
+                        .map(t -> t.getId())
+                        .collect(Collectors.toList());
+    }
 }

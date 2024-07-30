@@ -46,7 +46,7 @@ public class CommentService implements ICommentService {
     public List<CommentDto> getComments(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException());
         List<Comment> postComments = commentRepository.findByPost(post);
-        return commentMapper.toDto(postComments);
+        return commentMapper.toDtos(postComments);
     }
 
     /**
