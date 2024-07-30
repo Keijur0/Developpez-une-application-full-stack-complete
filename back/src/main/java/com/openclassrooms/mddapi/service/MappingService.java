@@ -85,7 +85,7 @@ public class MappingService {
     }
 
     @Named("topicsToTopicIds")
-    public List<Long> toTopicEntityList(List<Topic> topicList) {
+    public List<Long> toTopicIdList(List<Topic> topicList) {
         if (topicList == null) {
             return Collections.emptyList();
         }

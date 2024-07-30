@@ -11,25 +11,28 @@ import com.openclassrooms.mddapi.model.Comment;
 import com.openclassrooms.mddapi.service.MappingService;
 
 /**
- * Converts Comment entity to CommentDto and vice versa
+ * CommentMapper is an interface used to convert Comment entities to CommentDto objects and vice versa.
+ * It utilizes MapStruct for the mapping process and includes custom mapping services for complex conversions.
  */
 @Mapper(componentModel = "spring", uses = {MappingService.class})
 public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
     /**
-     * Converts a Comment entity to a CommentDto
-     * @param comment
-     * @return CommentDto
+     * Converts a Comment entity to a CommentDto.
+     *
+     * @param comment the Comment entity to convert.
+     * @return the corresponding CommentDto.
      */
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "postId", source = "post.id")
     CommentDto toDto(Comment comment);
 
     /**
-     * Converts a CommentDto to a Comment entity
-     * @param commentDto
-     * @return Comment
+     * Converts a CommentDto to a Comment entity.
+     *
+     * @param commentDto the CommentDto to convert.
+     * @return the corresponding Comment entity.
      */
     @Mapping(target = "user", source = "userId", qualifiedByName = "userIdToUserEntity")
     @Mapping(target = "post", source = "postId", qualifiedByName = "postIdToPostEntity")
@@ -37,9 +40,10 @@ public interface CommentMapper {
     Comment toEntity(CommentDto commentDto);
 
     /**
-     * Converts a Comment entity list to a CommentDto list
-     * @param commentList
-     * @return List<CommentDto>
+     * Converts a list of Comment entities to a list of CommentDto.
+     *
+     * @param commentList the list of Comment entities to convert.
+     * @return the corresponding list of CommentDto.
      */
     List<CommentDto> toDto(List<Comment> commentList);
 }

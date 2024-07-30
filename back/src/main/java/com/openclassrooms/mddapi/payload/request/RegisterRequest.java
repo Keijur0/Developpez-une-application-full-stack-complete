@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.payload.request;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
  * including username, email, and password.
  */
 @Data
+@AllArgsConstructor
 public class RegisterRequest {
 
     /**

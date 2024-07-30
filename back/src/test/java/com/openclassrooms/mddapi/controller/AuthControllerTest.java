@@ -42,9 +42,9 @@ public class AuthControllerTest {
     @DisplayName("Login test - Success")
     @Test
     public void testLogin_Success() throws Exception {
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsernameOrEmail("test");
-        loginRequest.setPassword("password");
+        LoginRequest loginRequest = new LoginRequest(
+                            "test",
+                            "password");
 
         when(authService.login(loginRequest)).thenReturn(ResponseEntity.ok(null));
 
@@ -57,9 +57,9 @@ public class AuthControllerTest {
     @DisplayName("Login test - Failure")
     @Test
     public void testLogin_Failure() throws Exception {
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsernameOrEmail("test");
-        loginRequest.setPassword("wrongpassword");
+        LoginRequest loginRequest = new LoginRequest(
+                            "test",
+                            "wrongpassword");
 
         when(authService.login(loginRequest)).thenReturn(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null));
 
@@ -72,10 +72,10 @@ public class AuthControllerTest {
     @DisplayName("Register test - Success")
     @Test
     public void testRegister_Success() throws Exception {
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setUsername("newuser");
-        registerRequest.setEmail("newuser@test.com");
-        registerRequest.setPassword("newpassword");
+        RegisterRequest registerRequest = new RegisterRequest(
+                            "newuser",
+                            "newuser@test.com",
+                            "password");
 
         when(authService.register(registerRequest)).thenReturn(ResponseEntity.ok(null));
 
@@ -88,10 +88,10 @@ public class AuthControllerTest {
     @DisplayName("Register test - Failure")
     @Test
     public void testRegister_Failure() throws Exception {
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setUsername("");
-        registerRequest.setEmail("newuser@test.com");
-        registerRequest.setPassword("newpassword");
+        RegisterRequest registerRequest = new RegisterRequest(
+                            "",
+                            "newuser@test.com",
+                            "password");
 
         when(authService.register(registerRequest)).thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
 

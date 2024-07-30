@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,8 +47,8 @@ public class UserControllerTest {
     public void testGetUser() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setId(1L);
-        userDto.setEmail("test@example.com");
-        userDto.setUsername("testuser");
+        userDto.setEmail("test@test.com");
+        userDto.setUsername("test");
         userDto.setSubscriptionsId(Collections.emptyList());
 
         when(userService.getUser(1L)).thenReturn(userDto);
@@ -64,7 +63,7 @@ public class UserControllerTest {
     public void testUpdateUser() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setId(1L);
-        userDto.setEmail("updated@example.com");
+        userDto.setEmail("updated@test.com");
         userDto.setUsername("updateduser");
         userDto.setSubscriptionsId(Collections.emptyList());
 
@@ -83,9 +82,7 @@ public class UserControllerTest {
         Topic topic2 = new Topic();
         topic1.setId(1L);
         topic2.setId(2L);
-        List<Topic> topics = new ArrayList<>();
-        topics.add(topic1);
-        topics.add(topic2);
+        List<Topic> topics = List.of(topic1, topic2);
 
         User user = new User();
         user.setId(1L);
