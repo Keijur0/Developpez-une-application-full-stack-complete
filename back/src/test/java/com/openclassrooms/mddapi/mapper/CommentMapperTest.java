@@ -3,8 +3,6 @@ package com.openclassrooms.mddapi.mapper;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.openclassrooms.mddapi.dto.CommentDto;
+import com.openclassrooms.mddapi.exception.NotFoundException;
 import com.openclassrooms.mddapi.model.Comment;
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.model.User;
@@ -35,55 +34,60 @@ public class CommentMapperTest {
     private CommentMapperImpl commentMapper;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
+        commentMapper.userRepository = userRepository;
+        commentMapper.postRepository = postRepository;
     }
 
     @DisplayName("To comment dto - Success")
     @Test
     public void testToDto_Success() {
-        User user = new User();
-        user.setId(1L);
-        Post post = new Post();
-        post.setId(2L);
-        
         Comment comment = new Comment();
         comment.setId(1L);
+        comment.setMessage("Test Content");
+
+        User user = new User();
+        user.setId(1L);
         comment.setUser(user);
+
+        Post post = new Post();
+        post.setId(1L);
         comment.setPost(post);
-        comment.setMessage("Test Comment");
-        comment.setCreatedAt(LocalDateTime.now());
 
         CommentDto commentDto = commentMapper.toDto(comment);
 
         assertNotNull(commentDto);
-        assertEquals(1L, commentDto.getUserId());
-        assertEquals(2L, commentDto.getPostId());
-        assertEquals("Test Comment", commentDto.getMessage());
+        assertEquals(comment.getId(), commentDto.getId());
+        assertEquals(comment.getMessage(), commentDto.getMessage());
+        assertEquals(comment.getUser().getId(), commentDto.getUserId());
+        assertEquals(comment.getPost().getId(), commentDto.getPostId());
     }
 
     @DisplayName("To comment entity - Success")
     @Test
     public void testToEntity_Success() {
         CommentDto commentDto = new CommentDto();
+        commentDto.setId(1L);
+        commentDto.setMessage("Test Content");
         commentDto.setUserId(1L);
-        commentDto.setPostId(2L);
-        commentDto.setMessage("Test Comment");
+        commentDto.setPostId(1L);
 
         User user = new User();
         user.setId(1L);
-        Post post = new Post();
-        post.setId(2L);
-
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(postRepository.findById(2L)).thenReturn(Optional.of(post));
+
+        Post post = new Post();
+        post.setId(1L);
+        when(postRepository.findById(1L)).thenReturn(Optional.of(post));
 
         Comment comment = commentMapper.toEntity(commentDto);
 
         assertNotNull(comment);
-        assertEquals(user, comment.getUser());
-        assertEquals(post, comment.getPost());
-        assertEquals("Test Comment", comment.getMessage());
+        assertEquals(commentDto.getId(), comment.getId());
+        assertEquals(commentDto.getMessage(), comment.getMessage());
+        assertEquals(commentDto.getUserId(), comment.getUser().getId());
+        assertEquals(commentDto.getPostId(), comment.getPost().getId());
     }
 
     @DisplayName("To comment entity - Failure: User not found")
@@ -91,62 +95,40 @@ public class CommentMapperTest {
     public void testToEntity_UserNotFound() {
         CommentDto commentDto = new CommentDto();
         commentDto.setUserId(1L);
-        commentDto.setPostId(2L);
-        commentDto.setMessage("Test Comment");
 
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
-        when(postRepository.findById(2L)).thenReturn(Optional.of(new Post()));
 
-        Comment comment = commentMapper.toEntity(commentDto);
-
-        assertNotNull(comment);
-        assertNull(comment.getUser());
-        assertNotNull(comment.getPost());
-        assertEquals("Test Comment", comment.getMessage());
+        assertThrows(NotFoundException.class, () -> commentMapper.toEntity(commentDto));
     }
 
     @DisplayName("To comment entity - Failure: Post not found")
     @Test
     public void testToEntity_PostNotFound() {
         CommentDto commentDto = new CommentDto();
-        commentDto.setUserId(1L);
-        commentDto.setPostId(2L);
-        commentDto.setMessage("Test Comment");
+        commentDto.setPostId(1L);
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(new User()));
-        when(postRepository.findById(2L)).thenReturn(Optional.empty());
+        when(postRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Comment comment = commentMapper.toEntity(commentDto);
-
-        assertNotNull(comment);
-        assertNotNull(comment.getUser());
-        assertNull(comment.getPost());
-        assertEquals("Test Comment", comment.getMessage());
+        assertThrows(NotFoundException.class, () -> commentMapper.toEntity(commentDto));
     }
 
-    @DisplayName("To comment dto list - Success")
+    @DisplayName("To comment dtos - Success")
     @Test
     public void testToDtos_Success() {
-        User user = new User();
-        user.setId(1L);
-        Post post = new Post();
-        post.setId(2L);
+        Comment comment1 = new Comment();
+        comment1.setId(1L);
+        comment1.setMessage("Content 1");
 
-        Comment comment = new Comment();
-        comment.setId(1L);
-        comment.setUser(user);
-        comment.setPost(post);
-        comment.setMessage("Test Comment");
+        Comment comment2 = new Comment();
+        comment2.setId(2L);
+        comment2.setMessage("Content 2");
 
-        List<Comment> commentList = Collections.singletonList(comment);
+        List<Comment> comments = List.of(comment1, comment2);
+        List<CommentDto> commentDtos = commentMapper.toDtos(comments);
 
-        List<CommentDto> commentDtoList = commentMapper.toDtos(commentList);
-
-        assertNotNull(commentDtoList);
-        assertEquals(1, commentDtoList.size());
-        CommentDto commentDto = commentDtoList.get(0);
-        assertEquals(1L, commentDto.getUserId());
-        assertEquals(2L, commentDto.getPostId());
-        assertEquals("Test Comment", commentDto.getMessage());
+        assertNotNull(commentDtos);
+        assertEquals(2, commentDtos.size());
+        assertEquals(comment1.getId(), commentDtos.get(0).getId());
+        assertEquals(comment2.getId(), commentDtos.get(1).getId());
     }
 }

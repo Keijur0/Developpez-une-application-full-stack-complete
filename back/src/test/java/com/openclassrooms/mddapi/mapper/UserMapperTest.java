@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
@@ -15,19 +16,20 @@ import com.openclassrooms.mddapi.dto.UserDto;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 
-class UserMapperTest {
+@DisplayName("User mapper unit tests")
+public class UserMapperTest {
 
     @InjectMocks
     private UserMapperImpl userMapper;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    @DisplayName("To user dto - Subscriptions not null")
     @Test
-    void testToDtoWithSubscriptions() {
-        // Arrange
+    public void testToDto_SubscriptionsNotNull() {
         User user = new User();
         user.setId(1L);
         user.setUsername("test");
@@ -43,10 +45,8 @@ class UserMapperTest {
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
 
-        // Act
         UserDto userDto = userMapper.toDto(user);
 
-        // Assert
         assertNotNull(userDto);
         assertEquals(1L, userDto.getId());
         assertEquals("test", userDto.getUsername());
@@ -54,9 +54,9 @@ class UserMapperTest {
         assertEquals(Arrays.asList(101L, 102L), userDto.getSubscriptionsId());
     }
 
+    @DisplayName("To user dto - Subscriptions null")
     @Test
-    void testToDtoWithNullSubscriptions() {
-        // Arrange
+    public void testToDto_SubscriptionsNull() {
         User user = new User();
         user.setId(1L);
         user.setUsername("test");
@@ -66,10 +66,8 @@ class UserMapperTest {
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
 
-        // Act
         UserDto userDto = userMapper.toDto(user);
 
-        // Assert
         assertNotNull(userDto);
         assertEquals(1L, userDto.getId());
         assertEquals("test", userDto.getUsername());
@@ -77,49 +75,45 @@ class UserMapperTest {
         assertTrue(userDto.getSubscriptionsId().isEmpty());
     }
 
+    @DisplayName("To user entity - Subscriptions not null")
     @Test
-    void testToEntity() {
-        // Arrange
+    public void testToEntity_SubscriptionsNotNull() {
         UserDto userDto = new UserDto();
         userDto.setId(1L);
         userDto.setUsername("test");
         userDto.setEmail("test@test.com");
         userDto.setSubscriptionsId(Arrays.asList(101L, 102L));
 
-        // Act
         User user = userMapper.toEntity(userDto);
 
-        // Assert
         assertNotNull(user);
         assertEquals(1L, user.getId());
         assertEquals("test", user.getUsername());
         assertEquals("test@test.com", user.getEmail());
-        assertNull(user.getCreatedAt()); // Ignored field
-        assertNull(user.getUpdatedAt()); // Ignored field
-        assertNull(user.getPassword());  // Ignored field
-        assertNull(user.getSubscriptions()); // Ignored field
+        assertNull(user.getCreatedAt());
+        assertNull(user.getUpdatedAt());
+        assertNull(user.getPassword());
+        assertNull(user.getSubscriptions());
     }
 
+    @DisplayName("To user entity - Subscriptions empty")
     @Test
-    void testToEntityWithEmptySubscriptions() {
-        // Arrange
+    public void testToEntity_EmptySubscriptions() {
         UserDto userDto = new UserDto();
         userDto.setId(1L);
         userDto.setUsername("test");
         userDto.setEmail("test@test.com");
         userDto.setSubscriptionsId(Collections.emptyList());
 
-        // Act
         User user = userMapper.toEntity(userDto);
 
-        // Assert
         assertNotNull(user);
         assertEquals(1L, user.getId());
         assertEquals("test", user.getUsername());
         assertEquals("test@test.com", user.getEmail());
-        assertNull(user.getCreatedAt()); // Ignored field
-        assertNull(user.getUpdatedAt()); // Ignored field
-        assertNull(user.getPassword());  // Ignored field
-        assertNull(user.getSubscriptions()); // Ignored field
+        assertNull(user.getCreatedAt());
+        assertNull(user.getUpdatedAt());
+        assertNull(user.getPassword());
+        assertNull(user.getSubscriptions());
     }
 }

@@ -37,8 +37,6 @@ public abstract class UserMapper {
     @Mapping(target = "subscriptionsId", source="subscriptions", qualifiedByName = "topicsToTopicIds")
     public abstract UserDto toDto(User user);
 
-    /* expression = "java(user.getSubscriptions() == null ? Collections.emptyList() : user.getSubscriptions().stream().map(t -> t.getId()).collect(Collectors.toList()))" */
-
     /**
      * Converts a {@link UserDto} to a {@link User} entity.
      * <p> 
@@ -61,14 +59,23 @@ public abstract class UserMapper {
     @Mapping(target = "subscriptions", ignore = true)
     public abstract User toEntity(UserDto userDto);
 
-
+    /**
+     * Converts a list of {@link Topic} entities to a list of topic IDs.
+     * <p>
+     * This method is used to extract the IDs from a list of {@link Topic} entities.
+     * If the provided list is null, it returns an empty list.
+     * </p>
+     * 
+     * @param topicList the list of {@link Topic} entities
+     * @return a list of topic IDs
+     */
     @Named("topicsToTopicIds")
     List<Long> toTopicIdList(List<Topic> topicList) {
         if (topicList == null) {
             return Collections.emptyList();
         }
         return topicList.stream()
-                        .map(t -> t.getId())
+                        .map(Topic::getId)
                         .collect(Collectors.toList());
     }
 }

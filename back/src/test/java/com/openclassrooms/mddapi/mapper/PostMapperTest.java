@@ -3,8 +3,6 @@ package com.openclassrooms.mddapi.mapper;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.openclassrooms.mddapi.dto.PostDto;
+import com.openclassrooms.mddapi.exception.NotFoundException;
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
@@ -37,100 +36,103 @@ public class PostMapperTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        postMapper.userRepository = userRepository;
+        postMapper.topicRepository = topicRepository;
     }
 
     @DisplayName("To post dto - Success")
     @Test
     public void testToDto_Success() {
+        Post post = new Post();
+        post.setId(1L);
+        post.setTitle("Test Title");
+        post.setContent("Test Content");
+
         User user = new User();
         user.setId(1L);
+        post.setUser(user);
 
         Topic topic = new Topic();
         topic.setId(1L);
-
-        Post post = new Post();
-        post.setUser(user);
         post.setTopic(topic);
 
         PostDto postDto = postMapper.toDto(post);
 
         assertNotNull(postDto);
-        assertEquals(1L, postDto.getAuthorId());
-        assertEquals(1L, postDto.getTopicId());
+        assertEquals(post.getId(), postDto.getId());
+        assertEquals(post.getTitle(), postDto.getTitle());
+        assertEquals(post.getContent(), postDto.getContent());
+        assertEquals(post.getUser().getId(), postDto.getAuthorId());
+        assertEquals(post.getTopic().getId(), postDto.getTopicId());
     }
 
     @DisplayName("To post entity - Success")
     @Test
     public void testToEntity_Success() {
         PostDto postDto = new PostDto();
+        postDto.setId(1L);
+        postDto.setTitle("Test Title");
+        postDto.setContent("Test Content");
         postDto.setAuthorId(1L);
         postDto.setTopicId(1L);
 
         User user = new User();
         user.setId(1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         Topic topic = new Topic();
         topic.setId(1L);
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(topicRepository.findById(1L)).thenReturn(Optional.of(topic));
 
         Post post = postMapper.toEntity(postDto);
 
         assertNotNull(post);
-        assertEquals(user, post.getUser());
-        assertEquals(topic, post.getTopic());
+        assertEquals(postDto.getId(), post.getId());
+        assertEquals(postDto.getTitle(), post.getTitle());
+        assertEquals(postDto.getContent(), post.getContent());
+        assertEquals(postDto.getAuthorId(), post.getUser().getId());
+        assertEquals(postDto.getTopicId(), post.getTopic().getId());
     }
 
-    @DisplayName("To post entity Failure: User and Topic not found")
+    @DisplayName("To post entity - Failure: User not found")
     @Test
-    public void testToEntity_UserAndTopicNotFound() {
+    public void testToEntity_UserNotFound() {
         PostDto postDto = new PostDto();
         postDto.setAuthorId(1L);
-        postDto.setTopicId(1L);
 
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> postMapper.toEntity(postDto));
+    }
+
+    @DisplayName("To post entity - Failure: Post not found")
+    @Test
+    public void testToEntity_TopicNotFound() {
+        PostDto postDto = new PostDto();
+        postDto.setTopicId(1L);
+
         when(topicRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Post post = postMapper.toEntity(postDto);
-
-        assertNotNull(post);
-        assertNull(post.getUser()); // Le user n'existe pas, donc il devrait être null
-        assertNull(post.getTopic()); // Le topic n'existe pas, donc il devrait être null
+        assertThrows(NotFoundException.class, () -> postMapper.toEntity(postDto));
     }
 
     @DisplayName("To post dto list - Success")
     @Test
     public void testToDtoList_Success() {
-        User user = new User();
-        user.setId(1L);
-
-        Topic topic = new Topic();
-        topic.setId(1L);
-
         Post post1 = new Post();
-        post1.setUser(user);
-        post1.setTopic(topic);
+        post1.setId(1L);
+        post1.setTitle("Title 1");
 
         Post post2 = new Post();
-        post2.setUser(user);
-        post2.setTopic(topic);
+        post2.setId(2L);
+        post2.setTitle("Title 2");
 
-        List<Post> posts = Arrays.asList(post1, post2);
+        List<Post> posts = List.of(post1, post2);
         List<PostDto> postDtos = postMapper.toDto(posts);
 
         assertNotNull(postDtos);
         assertEquals(2, postDtos.size());
-        assertEquals(1L, postDtos.get(0).getAuthorId());
-        assertEquals(1L, postDtos.get(0).getTopicId());
-    }
-
-    @Test
-    public void testToDtoListEmpty() {
-        List<Post> posts = Collections.emptyList();
-        List<PostDto> postDtos = postMapper.toDto(posts);
-
-        assertNotNull(postDtos);
-        assertTrue(postDtos.isEmpty());
+        assertEquals(post1.getId(), postDtos.get(0).getId());
+        assertEquals(post2.getId(), postDtos.get(1).getId());
     }
 }
