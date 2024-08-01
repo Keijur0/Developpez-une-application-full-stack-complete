@@ -3,6 +3,9 @@
         <div *ngIf="isLoggedIn$() | async">
             <span routerLink="/posts"> Articles </span>
             <span routerLink="/topic"> Thèmes </span>
+            <span routerLink="/me">
+                <mat-icon>account_circle</mat-icon>
+            </span>
         </div>
     </mat-toolbar>
 </div>

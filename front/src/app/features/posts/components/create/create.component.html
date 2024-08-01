@@ -1,0 +1,28 @@
+<div>
+    <mat-card>
+        <button mat-icon-button routerLink="/posts">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <mat-card-header>
+            <mat-card-title> Créer un nouvel article </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form class="post-form" [formGroup]="postForm" (ngSubmit)="submit()">
+                <mat-form-field>
+                    <mat-select ngDefaultControl formControlName="topicId" placeholder="Sélectionner un thème">
+                        <mat-option *ngFor="let topic of topics$ | async" [value]="topic.id">
+                            {{ topic.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="title" placeholder="Titre de l'article">
+                </mat-form-field>
+                <mat-form-field>
+                    <textarea matInput formControlName="content" placeholder="Contenu de l'article"></textarea>
+                </mat-form-field>
+                <button mat-raised-button type="submit" color="primary" [disabled]="postForm.invalid"> Créer </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

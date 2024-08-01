@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -11,13 +12,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { HomeComponent } from './pages/home/home.component';
+import { MeComponent } from './pages/me/me.component';
 import { TopicComponent } from './pages/topic/topic.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    TopicComponent
+    TopicComponent,
+    MeComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { TopicComponent } from './pages/topic/topic.component';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

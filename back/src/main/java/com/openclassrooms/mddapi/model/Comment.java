@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -59,7 +59,7 @@ public class Comment {
 	/**
 	 * Comment's creation date
 	 */
-	@CreatedDate
+	@CreationTimestamp
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 }
