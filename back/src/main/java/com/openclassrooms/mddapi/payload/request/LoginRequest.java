@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.payload.request;
 
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  * including a username or email and a password.
  */
 @Data
+@AllArgsConstructor
 public class LoginRequest {
 
     /**

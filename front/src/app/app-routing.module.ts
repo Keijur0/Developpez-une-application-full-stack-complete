@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { UnauthGuard } from './guards/unauth.guard';
 import { HomeComponent } from './pages/home/home.component';
+import { MeComponent } from './pages/me/me.component';
 import { TopicComponent } from './pages/topic/topic.component';
 
 // consider a guard combined with canLoad / canActivate route option
@@ -29,6 +30,11 @@ const routes: Routes = [
     path: 'posts',
     canActivate: [AuthGuard],
     loadChildren: () => import('./features/posts/posts.module').then(m => m.PostsModule)
+  },
+  {
+    path: 'me',
+    canActivate: [AuthGuard],
+    component: MeComponent
   }
 ];
 

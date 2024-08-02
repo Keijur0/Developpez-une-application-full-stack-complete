@@ -90,13 +90,14 @@ public class UserService implements IUserService {
      */
     public void unsubscribe(Long userId, Long topicId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException());
+        topicRepository.findById(topicId).orElseThrow(() -> new NotFoundException());
 
         boolean alreadySubscribed = user.getSubscriptions().stream().anyMatch(t -> t.getId().equals(topicId));
         if(!alreadySubscribed) {
             throw new BadRequestException();
         }
 
-        user.setSubscriptions(user.getSubscriptions().stream().filter(topic -> !topic.getId().equals(topicId)).collect(Collectors.toList()));
-
+        user.setSubscriptions(user.getSubscriptions().stream().filter(t -> !t.getId().equals(topicId)).collect(Collectors.toList()));
+        userRepository.save(user);
     }
 }

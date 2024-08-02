@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, Observable } from 'rxjs';
 import { SessionService } from './services/session.service';
 
 @Component({
@@ -8,7 +9,17 @@ import { SessionService } from './services/session.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private sessionService: SessionService) {
+
+  public showToolbar: boolean = true;
+
+  constructor(
+    private sessionService: SessionService,
+    private router: Router
+  ) {
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+        this.showToolbar = event.url !== '/';
+      });
   }
 
   public isLoggedIn$(): Observable<boolean> {

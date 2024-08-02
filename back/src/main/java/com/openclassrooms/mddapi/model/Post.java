@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,12 +37,13 @@ public class Post {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="post_id")
+    @Column(name = "post_id")
     private Long id;
 
     /**
      * Topic associated with the post.
-     * This field represents a many-to-one relationship with the {@link Topic} entity.
+     * This field represents a many-to-one relationship with the {@link Topic}
+     * entity.
      */
     @ManyToOne
     @JoinColumn(name = "topic_id", referencedColumnName = "topic_id")
@@ -58,7 +59,8 @@ public class Post {
 
     /**
      * Author of the post.
-     * This field represents a many-to-one relationship with the {@link User} entity.
+     * This field represents a many-to-one relationship with the {@link User}
+     * entity.
      */
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "user_id")
@@ -76,7 +78,7 @@ public class Post {
      * Post's creation date.
      * This field is automatically set to the date when the post is created.
      */
-    @CreatedDate
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 }
