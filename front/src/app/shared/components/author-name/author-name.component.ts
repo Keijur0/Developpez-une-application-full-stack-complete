@@ -20,7 +20,7 @@ export class AuthorNameComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['authorId'].currentValue !== changes['authorId'].previousValue) {
       this.userService.getUser(changes['authorId'].currentValue).subscribe((user: User) => {
-        this.authorName = user.username
+        this.authorName = user.username;
       });
     }
   }

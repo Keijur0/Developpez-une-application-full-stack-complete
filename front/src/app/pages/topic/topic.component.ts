@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { map, Observable } from "rxjs";
 import { Topic } from "src/app/interfaces/topic.interface";
 import { User } from "src/app/interfaces/user.interface";
@@ -21,7 +22,8 @@ export class TopicComponent implements OnInit {
   constructor(
     private topicService: TopicService,
     private sessionService: SessionService,
-    private userService: UserService
+    private userService: UserService,
+    private matSnackBar: MatSnackBar
   ) {
     this.userId = this.sessionService.sessionInfo!.id;
     this.topics$ = this.topicService.getTopics();
@@ -45,7 +47,12 @@ export class TopicComponent implements OnInit {
   }
 
   public subscribe(topicId: number): void {
-    this.userService.subscribe(this.userId, topicId).subscribe(_ => this.fetchUser());
+    this.userService.subscribe(this.userId, topicId).subscribe({
+      next: _ => {
+        this.fetchUser();
+        this.matSnackBar.open('Abonnement réussi', 'Fermer', { duration: 3000 });
+      }
+    });
   }
 
 }

@@ -1,0 +1,24 @@
+<div>
+    <mat-card *ngIf="post$ | async as post">
+        <button mat-icon-button routerLink="/posts">
+            <mat-icon>
+                arrow_back
+            </mat-icon>
+        </button>
+        <mat-card-title>
+            {{ post.title | titlecase }}
+        </mat-card-title>
+        <mat-card-subtitle>
+            <p> {{ post.createdAt | date: 'longDate' }} </p>
+            <p>
+                <app-author-name [authorId]="post.authorId"></app-author-name>
+            </p>
+            <p>
+                <app-topic-name [topicId]="post.topicId"></app-topic-name>
+            </p>
+        </mat-card-subtitle>
+        <mat-card-content>
+            <p>Content: {{ post.content }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>

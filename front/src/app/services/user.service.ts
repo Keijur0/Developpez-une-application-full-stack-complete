@@ -41,13 +41,7 @@ export class UserService {
   }
 
   public unsubscribe(id: number, topicId: number): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/${id}/subscribe/${topicId}`).pipe(
-      tap(() => {
-        const currentSubscriptions = this.subscriptionsSubject.value;
-        const updatedSubscriptions = currentSubscriptions.filter(tId => tId !== topicId );
-        this.subscriptionsSubject.next(updatedSubscriptions);
-      })
-    )
+    return this.httpClient.delete<void>(`${this.apiUrl}/${id}/subscribe/${topicId}`);
   }
 
 }

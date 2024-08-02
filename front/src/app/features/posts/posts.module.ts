@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CreateComponent } from './components/create/create.component';
+import { DetailComponent } from './components/detail/detail.component';
 import { ListComponent } from './components/list/list.component';
 import { PostsRoutingModule } from './posts-routing.module';
 
@@ -19,7 +20,8 @@ import { PostsRoutingModule } from './posts-routing.module';
 @NgModule({
   declarations: [
     ListComponent,
-    CreateComponent
+    CreateComponent,
+    DetailComponent
   ],
   imports: [
     CommonModule,
