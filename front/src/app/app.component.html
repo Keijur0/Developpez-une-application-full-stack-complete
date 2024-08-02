@@ -1,5 +1,5 @@
 <div>
-    <mat-toolbar>
+    <mat-toolbar *ngIf="showToolbar">
         <div *ngIf="isLoggedIn$() | async">
             <span routerLink="/posts"> Articles </span>
             <span routerLink="/topic"> Thèmes </span>

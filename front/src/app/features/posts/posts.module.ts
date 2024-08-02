@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { CreateComponent } from './components/create/create.component';
 import { ListComponent } from './components/list/list.component';
 import { PostsRoutingModule } from './posts-routing.module';
@@ -32,7 +33,8 @@ import { PostsRoutingModule } from './posts-routing.module';
     MatSnackBarModule,
     MatSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
 
   ]
 })
