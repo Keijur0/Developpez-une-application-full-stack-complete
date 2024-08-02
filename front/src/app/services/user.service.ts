@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { SessionInfo } from '../interfaces/sessionInfo.interface';
+import { Topic } from '../interfaces/topic.interface';
 import { User } from '../interfaces/user.interface';
 
 @Injectable({
@@ -21,8 +23,12 @@ export class UserService {
     );
   }
 
-  public update(id: number, user: User): Observable<User> {
-    return this.httpClient.put<User>(`${this.apiUrl}/${id}`, user);
+  public update(id: number, user: User): Observable<SessionInfo> {
+    return this.httpClient.put<SessionInfo>(`${this.apiUrl}/${id}`, user);
+  }
+
+  public getSubscriptions(id: number): Observable<Topic[]> {
+    return this.httpClient.get<Topic[]>(`${this.apiUrl}/${id}/subscriptions`);
   }
 
   public subscribe(id: number, topicId: number): Observable<void> {

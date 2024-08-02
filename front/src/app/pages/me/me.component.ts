@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { combineLatest, map, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { SessionInfo } from 'src/app/interfaces/sessionInfo.interface';
 import { Topic } from 'src/app/interfaces/topic.interface';
 import { User } from 'src/app/interfaces/user.interface';
 import { SessionService } from 'src/app/services/session.service';
-import { TopicService } from 'src/app/services/topic.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -13,45 +15,65 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./me.component.scss']
 })
 export class MeComponent implements OnInit {
-
-  public user: User | undefined;
+  public sessionInfo: SessionInfo;
   public userId: number;
   public subscriptions$: Observable<number[]>;
-  public topics$: Observable<Topic[]>;
-  public subscribedTopics$: Observable<Topic[]>;
+  public subscribedTopics$: Observable<Topic[]> = of([]);
+
+  public meForm: FormGroup | undefined;
 
   constructor(
     private sessionService: SessionService,
     private userService: UserService,
-    private topicService: TopicService,
     private router: Router,
+    private formBuilder: FormBuilder,
+    private matSnackBar: MatSnackBar
   ) {
-    this.userId = this.sessionService.sessionInfo!.id;
+    this.sessionInfo = this.sessionService.sessionInfo!;
+    this.userId = this.sessionInfo!.id;
     this.subscriptions$ = this.userService.subscriptions$;
-    this.topics$ = this.topicService.getTopics();
-    this.subscribedTopics$ = combineLatest([this.topics$, this.subscriptions$]).pipe(
-      map(([topics, subscriptions]) =>
-      topics.filter((topic: Topic) => subscriptions.includes(topic.id)))
-    );
   }
 
   public ngOnInit(): void {
-    this.fetchUser();
-    }
-    
-  private fetchUser() {
-    this.userService.getUser(this.userId).subscribe(user => {
-      this.user = user;
+    this.initForm(this.sessionInfo);
+    this.fetchSubscriptions();
+  }
+
+  private initForm(sessionInfo: SessionInfo): void {
+    this.meForm = this.formBuilder.group({
+      username: [sessionInfo.username, [Validators.required]],
+      email: [sessionInfo.email, [Validators.required, Validators.email]]
     });
   }
 
-  private logout() {
+  private fetchSubscriptions(): void {
+    this.subscribedTopics$ = this.userService.getSubscriptions(this.userId);
+  }
+
+  public save(): void {
+    const user = this.meForm!.value as User;
+    this.userService.update(this.userId, user).subscribe({
+      next: (sessionInfo: SessionInfo) => {
+        this.sessionInfo = sessionInfo;
+        this.sessionService.logIn(sessionInfo);
+        this.matSnackBar.open('Profil sauvegardé avec succès', 'Fermer', { duration: 3000 });
+      }
+    });
+  }
+
+  public logout(): void {
     this.sessionService.logOut();
+    this.matSnackBar.open('Déconnexion avec succès', 'Fermer', { duration: 3000 });
     this.router.navigate(['']);
   }
 
   public unsubscribe(topicId: number) {
-    this.userService.unsubscribe(this.userId, topicId).subscribe();
+    this.userService.unsubscribe(this.userId, topicId).subscribe({
+      next: () => {
+        this.matSnackBar.open('Désabonnement réussi', 'Fermer', { duration: 3000 });
+        this.fetchSubscriptions();
+      }
+    });
   }
 
 }

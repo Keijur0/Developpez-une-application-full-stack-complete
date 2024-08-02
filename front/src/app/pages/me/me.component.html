@@ -1,1 +1,24 @@
-<p>me works!</p>
+<div>
+    <mat-card>
+        <mat-card-title> Profil utilisateur </mat-card-title>
+        <mat-card-content>
+            <form class="me-form" [formGroup]="meForm!" (ngSubmit)="save()">
+                <mat-form-field>
+                    <input matInput formControlName="username">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="email">
+                </mat-form-field>
+                <button mat-raised-button color="primary" type="submit" [disabled]="meForm!.invalid"> Sauvegarder </button>
+            </form>
+            <button mat-flat-button color="warn" (click)="logout()"> Se déconnecter </button>
+        </mat-card-content>
+    </mat-card>
+    <mat-card *ngFor="let topic of (subscribedTopics$ | async)">
+        <mat-card-title> {{topic.name}} </mat-card-title>
+        <mat-card-content>
+            Description: {{topic.description}}
+        </mat-card-content>
+            <button mat-raised-button color="primary" (click)="unsubscribe(topic.id)"> Se désabonner </button> 
+    </mat-card>
+</div>
