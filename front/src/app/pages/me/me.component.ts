@@ -17,9 +17,7 @@ import { UserService } from 'src/app/services/user.service';
 export class MeComponent implements OnInit {
   public sessionInfo: SessionInfo;
   public userId: number;
-  public subscriptions$: Observable<number[]>;
   public subscribedTopics$: Observable<Topic[]> = of([]);
-
   public meForm: FormGroup | undefined;
 
   constructor(
@@ -31,7 +29,7 @@ export class MeComponent implements OnInit {
   ) {
     this.sessionInfo = this.sessionService.sessionInfo!;
     this.userId = this.sessionInfo!.id;
-    this.subscriptions$ = this.userService.subscriptions$;
+
   }
 
   public ngOnInit(): void {

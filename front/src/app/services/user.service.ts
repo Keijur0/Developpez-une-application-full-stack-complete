@@ -11,16 +11,13 @@ import { User } from '../interfaces/user.interface';
 export class UserService {
 
   private apiUrl = 'api/user';
-
-  private subscriptionsSubject = new BehaviorSubject<number[]>([]);
-  public subscriptions$: Observable<number[]> = this.subscriptionsSubject.asObservable();
+  private subscriptionsSubject = new BehaviorSubject<Topic[]>([]);
+  public subscriptions$ = this.subscriptionsSubject.asObservable();
 
   constructor(private httpClient: HttpClient) { }
 
   public getUser(id: number): Observable<User> {
-    return this.httpClient.get<User>(`${this.apiUrl}/${id}`).pipe(
-      tap(user => this.subscriptionsSubject.next(user.subscriptionsId))
-    );
+    return this.httpClient.get<User>(`${this.apiUrl}/${id}`);
   }
 
   public update(id: number, user: User): Observable<SessionInfo> {
@@ -28,16 +25,13 @@ export class UserService {
   }
 
   public getSubscriptions(id: number): Observable<Topic[]> {
-    return this.httpClient.get<Topic[]>(`${this.apiUrl}/${id}/subscriptions`);
+    return this.httpClient.get<Topic[]>(`${this.apiUrl}/${id}/subscriptions`).pipe(
+      tap(topics => this.subscriptionsSubject.next(topics))
+    );
   }
 
   public subscribe(id: number, topicId: number): Observable<void> {
-    return this.httpClient.put<void>(`${this.apiUrl}/${id}/subscribe/${topicId}`, null).pipe(
-      tap(() => {
-        const currentSubscriptions = this.subscriptionsSubject.value;
-        this.subscriptionsSubject.next([...currentSubscriptions, topicId]);
-      })
-    );
+    return this.httpClient.put<void>(`${this.apiUrl}/${id}/subscribe/${topicId}`, null);
   }
 
   public unsubscribe(id: number, topicId: number): Observable<void> {
