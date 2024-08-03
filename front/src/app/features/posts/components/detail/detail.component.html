@@ -21,4 +21,24 @@
             <p>Content: {{ post.content }}</p>
         </mat-card-content>
     </mat-card>
+    <mat-card>
+        <mat-card-subtitle> Commentaires </mat-card-subtitle>
+        <mat-card-content>
+            <div *ngFor="let comment of comments$ | async">
+                    <app-author-name [authorId]="comment.userId"></app-author-name>
+                <mat-card>
+                    {{ comment.message }}
+                </mat-card>
+            </div>
+            <form [formGroup]="commentForm" (ngSubmit)="sendComment()">
+                <mat-form-field>
+                    <textarea matInput formControlName="message" placeholder="Ecrivez ici votre commentaire"></textarea>
+                </mat-form-field>
+                <button mat-icon-button type="submit">
+                    <mat-icon>send</mat-icon>
+                </button>
+                
+            </form>
+        </mat-card-content>
+    </mat-card>
 </div>

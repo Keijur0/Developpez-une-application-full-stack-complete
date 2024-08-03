@@ -6,23 +6,25 @@
             </button>
             <div>Inscription</div>
         </mat-card-title>
-        <form class="register-form" [formGroup]="form" (ngSubmit)="submit()">
+        <form class="register-form" [formGroup]="form">
             <mat-card-content>
+                <div>Nom d'utilisateur</div>
                 <mat-form-field>
-                    <mat-label>Nom d'utilisateur</mat-label>
                     <input matInput formControlName="username">
                 </mat-form-field>
+                <div>Adresse e-mail</div>
                 <mat-form-field>
-                    <mat-label>Adresse e-mail</mat-label>
                     <input matInput formControlName="email">
                 </mat-form-field>
+                <div>Mot de passe</div>
                 <mat-form-field>
-                    <mat-label>Mot de passe</mat-label>
-                    <input matInput formControlName="password">
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
                 </mat-form-field>
             </mat-card-content>
-            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid"> S'inscrire </button>
-            <span *ngIf="onError"> Une erreur est survenue </span>
+            <button mat-raised-button color="primary" (click)="submit()" [disabled]="form.invalid"> S'inscrire </button>
         </form>
     </mat-card>
 </div>

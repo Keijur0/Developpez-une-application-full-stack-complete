@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SessionInfo } from 'src/app/interfaces/sessionInfo.interface';
 import { SessionService } from 'src/app/services/session.service';
@@ -24,7 +25,8 @@ export class LoginComponent {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private matSnackBar: MatSnackBar,
   ) { }
 
   public submit(): void {
@@ -35,7 +37,9 @@ export class LoginComponent {
         this.sessionService.logIn(sessionInfo);
         this.router.navigate(['/posts']);
       },
-      error: error => this.onError = true
+      error: _ => {
+        this.matSnackBar.open('Nom d\'utilisateur, email ou mot de passe incorrect', 'Fermer', { duration: 3000 });
+      }
     });
   }
 

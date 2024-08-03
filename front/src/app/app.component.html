@@ -4,7 +4,9 @@
         <div class="toolbar-items link" *ngIf="isLoggedIn$() | async">
             <span routerLink="/posts"> Articles </span>
             <span routerLink="/topic"> Thèmes </span>
-            <mat-icon class="account-logo" routerLink="/me"> account_circle </mat-icon>
+            <button mat-icon-button class="account-logo" routerLink="/me">
+                <mat-icon> account_circle </mat-icon>
+            </button>
         </div>
     </mat-toolbar>
 </div>

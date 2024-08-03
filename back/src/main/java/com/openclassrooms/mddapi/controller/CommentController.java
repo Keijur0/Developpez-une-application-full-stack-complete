@@ -16,9 +16,13 @@ import com.openclassrooms.mddapi.service.ICommentService;
 /**
  * REST controller for managing comments.
  * This controller provides endpoints for retrieving and creating comments
- * related to specific posts. It uses {@link ICommentService} to interact with the business logic layer.
+ * related to specific posts. It uses {@link ICommentService} to interact with
+ * the business logic layer.
  * 
- * <p>All operations return a {@link ResponseEntity} to indicate the HTTP status and the response body.</p>
+ * <p>
+ * All operations return a {@link ResponseEntity} to indicate the HTTP status
+ * and the response body.
+ * </p>
  * 
  * @see CommentDto
  * @see ICommentService
@@ -37,7 +41,8 @@ public class CommentController {
      * Retrieves all comments for a specific post.
      * 
      * @param postId the unique identifier of the post
-     * @return a {@link ResponseEntity} containing a list of {@link CommentDto} objects
+     * @return a {@link ResponseEntity} containing a list of {@link CommentDto}
+     *         objects
      */
     @GetMapping("/{postId}")
     public ResponseEntity<?> getComments(@PathVariable("postId") Long postId) {
@@ -47,10 +52,11 @@ public class CommentController {
     /**
      * Creates a new comment for a specific post.
      * 
-     * @param commentDto the data transfer object containing the details of the comment to be created
+     * @param commentDto the data transfer object containing the details of the
+     *                   comment to be created
      * @return a {@link ResponseEntity} containing the created {@link CommentDto}
      */
-    @PostMapping("/{postId}")
+    @PostMapping
     public ResponseEntity<?> createComment(@Valid @RequestBody CommentDto commentDto) {
         return ResponseEntity.ok(commentService.createComment(commentDto));
     }
