@@ -1,11 +1,10 @@
 <div>
-    <mat-toolbar *ngIf="showToolbar">
-        <div *ngIf="isLoggedIn$() | async">
+    <mat-toolbar class="toolbar-container" *ngIf="showToolbar">
+        <img class="toolbar-logo" src="/assets/logo_p6.png" alt="logo"/>
+        <div class="toolbar-items link" *ngIf="isLoggedIn$() | async">
             <span routerLink="/posts"> Articles </span>
             <span routerLink="/topic"> Thèmes </span>
-            <span routerLink="/me">
-                <mat-icon>account_circle</mat-icon>
-            </span>
+            <mat-icon class="account-logo" routerLink="/me"> account_circle </mat-icon>
         </div>
     </mat-toolbar>
 </div>

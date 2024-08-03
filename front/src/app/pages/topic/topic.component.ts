@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { map, Observable } from "rxjs";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { map, Observable, of } from "rxjs";
 import { Topic } from "src/app/interfaces/topic.interface";
 import { User } from "src/app/interfaces/user.interface";
 import { SessionService } from "src/app/services/session.service";
@@ -16,36 +17,39 @@ export class TopicComponent implements OnInit {
   public user: User | undefined;
   public userId: number;
   public topics$: Observable<Topic[]>;
-  public subscriptions$: Observable<number[]>;
+  public subscribedTopics$: Observable<Topic[]> = of([]);
 
   constructor(
     private topicService: TopicService,
     private sessionService: SessionService,
-    private userService: UserService
+    private userService: UserService,
+    private matSnackBar: MatSnackBar
   ) {
     this.userId = this.sessionService.sessionInfo!.id;
     this.topics$ = this.topicService.getTopics();
-    this.subscriptions$ = this.userService.subscriptions$;
+    this.subscribedTopics$ = this.userService.subscriptions$;
   }
 
   public ngOnInit(): void {
-    this.fetchUser();
-  }
-
-  private fetchUser(): void {
-    this.userService.getUser(this.userId).subscribe((user: User) => {
-      this.user = user;
-    });
+    this.fetchSubscriptions();
   }
 
   public isSubscribed$(topicId: number): Observable<boolean> {
-    return this.subscriptions$.pipe(
-      map((subscriptions: number[]) => subscriptions.includes(topicId))
+    return this.subscribedTopics$.pipe(
+      map(topics => topics.some(topic => topic.id === topicId))
     );
   }
 
   public subscribe(topicId: number): void {
-    this.userService.subscribe(this.userId, topicId).subscribe(_ => this.fetchUser());
+    this.userService.subscribe(this.userId, topicId).subscribe({
+      next: _ => {
+        this.matSnackBar.open('Abonnement réussi', 'Fermer', { duration: 3000 });
+        this.fetchSubscriptions();
+      }
+    });
   }
 
+  private fetchSubscriptions(): void {
+    this.userService.getSubscriptions(this.userId).subscribe();
+  }
 }

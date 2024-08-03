@@ -6,11 +6,16 @@ import com.openclassrooms.mddapi.model.Topic;
 
 /**
  * Service interface for managing topics.
- * This interface defines the operations related to {@link Topic} entities, primarily
+ * This interface defines the operations related to {@link Topic} entities,
+ * primarily
  * focused on retrieving the list of available topics.
  * 
- * <p>Implementations of this interface should provide the necessary business logic and 
- * data access operations to manage the lifecycle of topics within the application.</p>
+ * <p>
+ * Implementations of this interface should provide the necessary business logic
+ * and
+ * data access operations to manage the lifecycle of topics within the
+ * application.
+ * </p>
  * 
  * @see Topic
  */
@@ -22,5 +27,7 @@ public interface ITopicService {
      * @return a list of {@link Topic} objects representing the available topics
      */
     List<Topic> getTopics();
+
+    Topic getTopic(Long id);
 
 }

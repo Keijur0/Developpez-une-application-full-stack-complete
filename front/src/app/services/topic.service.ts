@@ -16,4 +16,8 @@ export class TopicService {
     return this.httpClient.get<Topic[]>(this.apiUrl);
   }
 
+  public getTopic(id: number): Observable<Topic> {
+    return this.httpClient.get<Topic>(`${this.apiUrl}/${id}`)
+  }
+
 }

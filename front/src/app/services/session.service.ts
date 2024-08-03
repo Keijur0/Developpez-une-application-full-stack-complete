@@ -23,6 +23,7 @@ export class SessionService {
   }
 
   public logOut(): void {
+    localStorage.removeItem('token');
     this.sessionInfo = undefined;
     this.isLoggedIn = false;
     this.updateSubject();

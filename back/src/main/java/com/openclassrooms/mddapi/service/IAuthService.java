@@ -22,8 +22,11 @@ public interface IAuthService {
     /**
      * Registers a new user with the provided registration request.
      *
-     * @param registerRequest the registration request containing the user's registration details
+     * @param registerRequest the registration request containing the user's
+     *                        registration details
      * @return a {@link ResponseEntity} containing a success or error message
      */
     ResponseEntity<?> register(RegisterRequest registerRequest);
+
+    ResponseEntity<?> me();
 }

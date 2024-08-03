@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Post } from '../interfaces/post.interface';
 
 @Injectable({
@@ -21,6 +21,18 @@ export class PostService {
 
   public create(post: Post): Observable<Post> {
     return this.httpClient.post<Post>(this.apiUrl, post);
+  }
+
+  public getSortedPosts(userId: number, sortDirection: 'asc' | 'desc'): Observable<Post[]> {
+    return this.subscribedPosts(userId).pipe(
+      map(posts => {
+        return posts.sort((a, b) => {
+          const date1 = new Date(a.createdAt).getTime();
+          const date2 = new Date(b.createdAt).getTime();
+          return sortDirection === 'asc' ? date1 - date2 : date2 - date1;
+        });
+      })
+    );
   }
 
 }
