@@ -29,7 +29,7 @@ export class MeComponent implements OnInit {
   ) {
     this.sessionInfo = this.sessionService.sessionInfo!;
     this.userId = this.sessionInfo!.id;
-
+    this.subscribedTopics$ = this.userService.subscriptions$;
   }
 
   public ngOnInit(): void {
@@ -45,7 +45,7 @@ export class MeComponent implements OnInit {
   }
 
   private fetchSubscriptions(): void {
-    this.subscribedTopics$ = this.userService.getSubscriptions(this.userId);
+    this.userService.getSubscriptions(this.userId).subscribe();
   }
 
   public save(): void {
