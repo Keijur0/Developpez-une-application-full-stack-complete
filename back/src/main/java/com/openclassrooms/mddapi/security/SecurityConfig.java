@@ -36,20 +36,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(permit ->
-                permit.antMatchers("/api/auth/**").permitAll())
-            .authorizeHttpRequests(auth ->
-                auth.antMatchers("/api/**").authenticated())
-            .userDetailsService(userDetailsService)
-            .sessionManagement(session -> {
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-            })
-            .exceptionHandling(exception -> {
-                exception.authenticationEntryPoint(authEntryPoint);
-            })
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(permit -> permit.antMatchers("/api/auth/**").permitAll())
+                .authorizeHttpRequests(auth -> auth.antMatchers(
+                        "/api/auth/me",
+                        "/api/**").authenticated())
+                .userDetailsService(userDetailsService)
+                .sessionManagement(session -> {
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                })
+                .exceptionHandling(exception -> {
+                    exception.authenticationEntryPoint(authEntryPoint);
+                })
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.UserDto;
@@ -38,17 +37,14 @@ public class UserService implements IUserService {
 
     private final JwtService jwtService;
 
-    private final AuthenticationManager authManager;
-
     private final UserDetailsServiceImpl userDetailsService;
 
     public UserService(UserRepository userRepository, TopicRepository topicRepository, UserMapper userMapper,
-            JwtService jwtService, AuthenticationManager authManager, UserDetailsServiceImpl userDetailsService) {
+            JwtService jwtService, UserDetailsServiceImpl userDetailsService) {
         this.userRepository = userRepository;
         this.topicRepository = topicRepository;
         this.userMapper = userMapper;
         this.jwtService = jwtService;
-        this.authManager = authManager;
         this.userDetailsService = userDetailsService;
     }
 

@@ -11,7 +11,7 @@
                 </mat-form-field>
                 <button mat-raised-button color="primary" type="submit" [disabled]="meForm!.invalid"> Sauvegarder </button>
             </form>
-            <button mat-flat-button color="warn" (click)="logout()"> Se déconnecter </button>
+            <button class="disconnect-button" mat-flat-button (click)="logout()"> Se déconnecter </button>
         </mat-card-content>
     </mat-card>
     <mat-card *ngFor="let topic of (subscribedTopics$ | async)">

@@ -22,4 +22,7 @@ export class AuthService {
     return this.httpClient.post<void>(`${this.apiUrl}/register`, registerRequest);
   }
 
+  public me(): Observable<SessionInfo> {
+    return this.httpClient.get<SessionInfo>(`${this.apiUrl}/me`);
+  }
 }

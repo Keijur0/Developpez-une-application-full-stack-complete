@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.controller;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,8 @@ public class AuthController {
      * Validates the provided login request and returns an authentication response.
      *
      * @param loginRequest the login request containing username/email and password
-     * @return a {@link ResponseEntity} containing the authentication response or an error message
+     * @return a {@link ResponseEntity} containing the authentication response or an
+     *         error message
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
@@ -40,7 +42,8 @@ public class AuthController {
 
     /**
      * Endpoint for user registration.
-     * Validates the provided registration request and returns a message indicating the result.
+     * Validates the provided registration request and returns a message indicating
+     * the result.
      *
      * @param registerRequest the registration request containing user details
      * @return a {@link ResponseEntity} containing a success or error message
@@ -48,6 +51,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
         return authService.register(registerRequest);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me() {
+        return authService.me();
     }
 
 }
