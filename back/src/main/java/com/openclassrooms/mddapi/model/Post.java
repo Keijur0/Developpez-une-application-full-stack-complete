@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -55,6 +56,7 @@ public class Post {
      */
     @NotNull
     @NotBlank
+    @Size(max = 100)
     private String title;
 
     /**
@@ -72,6 +74,7 @@ public class Post {
      */
     @NotNull
     @NotBlank
+    @Size(max = 10000)
     private String content;
 
     /**

@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.dto;
 
-import java.util.List;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
@@ -10,7 +11,8 @@ import lombok.Data;
  * of the application, such as between the client and the server or between
  * different components of the backend.
  * 
- * The class is annotated with {@link Data} from Lombok to automatically generate
+ * The class is annotated with {@link Data} from Lombok to automatically
+ * generate
  * standard methods such as getters, setters, equals, hashCode, and toString.
  */
 @Data
@@ -24,15 +26,13 @@ public class UserDto {
     /**
      * The email address of the user.
      */
+    @NotBlank
+    @Email
     private String email;
 
     /**
      * The username of the user.
      */
+    @NotBlank
     private String username;
-
-    /**
-     * A list of IDs representing the topics the user is subscribed to.
-     */
-    private List<Long> subscriptionsId;
 }

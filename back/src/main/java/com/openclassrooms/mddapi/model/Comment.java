@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -54,6 +55,7 @@ public class Comment {
 	 */
 	@NotBlank
 	@NonNull
+	@Size(max = 2000)
 	private String message;
 
 	/**

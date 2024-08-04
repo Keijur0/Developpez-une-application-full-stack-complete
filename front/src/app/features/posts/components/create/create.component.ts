@@ -19,8 +19,8 @@ export class CreateComponent {
 
   public postForm: FormGroup = this.formBuilder.group({
     topicId: ['', [Validators.required]],
-    title: ['', [Validators.required]],
-    content: ['', [Validators.required]]
+    title: ['', [Validators.required, Validators.maxLength(100)]],
+    content: ['', [Validators.required, Validators.maxLength(10000)]]
   });
 
   constructor(
