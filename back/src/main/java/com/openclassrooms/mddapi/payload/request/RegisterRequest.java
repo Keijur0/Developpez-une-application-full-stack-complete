@@ -2,6 +2,9 @@ package com.openclassrooms.mddapi.payload.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import com.openclassrooms.mddapi.validation.ValidPassword;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,7 +36,11 @@ public class RegisterRequest {
     /**
      * The password for the new user.
      * This field must not be blank.
+     * The password must be at least 8 characters long and must contain
+     * at least one uppercase letter, one lowercase letter, one digit,
+     * and one special character.
      */
-    @NotBlank
+    @ValidPassword
+    @Size(min = 8)
     private String password;
 }
