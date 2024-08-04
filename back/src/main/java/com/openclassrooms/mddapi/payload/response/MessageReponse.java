@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * A response class indicating the result of an operation.
@@ -9,11 +10,12 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MessageReponse {
 
     /**
      * The message content.
      */
     private String message;
-    
+
 }

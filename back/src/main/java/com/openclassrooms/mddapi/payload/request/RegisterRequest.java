@@ -8,6 +8,7 @@ import com.openclassrooms.mddapi.validation.ValidPassword;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * A request class for user registration.
@@ -16,6 +17,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class RegisterRequest {
 
     /**

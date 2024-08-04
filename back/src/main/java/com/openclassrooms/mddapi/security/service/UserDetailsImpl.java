@@ -8,9 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
     private Long id;
@@ -21,7 +23,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private String password;
 
-@Override
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new HashSet<GrantedAuthority>();
     }

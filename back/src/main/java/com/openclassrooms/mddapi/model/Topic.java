@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -22,6 +23,7 @@ import lombok.NonNull;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "topics")
 public class Topic {
 
@@ -45,7 +47,8 @@ public class Topic {
 
     /**
      * Topic's description.
-     * This field must be non-null, non-blank, and provides additional details about the topic.
+     * This field must be non-null, non-blank, and provides additional details about
+     * the topic.
      */
     @NonNull
     @Column(nullable = false)

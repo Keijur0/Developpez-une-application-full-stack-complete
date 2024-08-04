@@ -3,7 +3,9 @@ package com.openclassrooms.mddapi.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * CommentDto is a data transfer object representing a comment in the system.
@@ -17,6 +19,8 @@ import lombok.Data;
  * methods.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CommentDto {
 
     /**

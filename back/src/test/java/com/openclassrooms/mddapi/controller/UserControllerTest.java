@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -49,7 +49,6 @@ public class UserControllerTest {
         userDto.setId(1L);
         userDto.setEmail("test@test.com");
         userDto.setUsername("test");
-        userDto.setSubscriptionsId(Collections.emptyList());
 
         when(userService.getUser(1L)).thenReturn(userDto);
 
@@ -65,15 +64,13 @@ public class UserControllerTest {
         userDto.setId(1L);
         userDto.setEmail("updated@test.com");
         userDto.setUsername("updateduser");
-        userDto.setSubscriptionsId(Collections.emptyList());
 
-        when(userService.updateUser(eq(1L), any(UserDto.class))).thenReturn(userDto);
+        when(userService.updateUser(eq(1L), any(UserDto.class))).thenReturn(ResponseEntity.ok(null));
 
         mockMvc.perform(put("/api/user/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userDto)))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(userDto)));
+                .andExpect(status().isOk());
     }
 
     @Test

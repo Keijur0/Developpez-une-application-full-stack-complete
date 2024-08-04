@@ -42,7 +42,6 @@ public class TopicControllerTest {
     @DisplayName("Get topics - Success")
     @Test
     public void testGetTopics_Success() throws Exception {
-        // Créez des objets Topic pour le test
         Topic topic1 = new Topic();
         topic1.setId(1L);
         topic1.setName("Topic 1");
@@ -51,13 +50,36 @@ public class TopicControllerTest {
         topic2.setId(2L);
         topic2.setName("Topic 2");
 
-        // Simulez le comportement du service
         when(topicService.getTopics()).thenReturn(List.of(topic1, topic2));
 
-        // Effectuez la requête et vérifiez la réponse
         mockMvc.perform(get("/api/topic")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(List.of(topic1, topic2))));
+    }
+
+    @DisplayName("Get topic by ID - Success")
+    @Test
+    public void testGetTopic_Success() throws Exception {
+        Topic topic = new Topic();
+        topic.setId(1L);
+        topic.setName("Topic 1");
+
+        when(topicService.getTopic(1L)).thenReturn(topic);
+
+        mockMvc.perform(get("/api/topic/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(topic)));
+    }
+
+    @DisplayName("Get topic by ID - Not Found")
+    @Test
+    public void testGetTopic_NotFound() throws Exception {
+        when(topicService.getTopic(999L)).thenReturn(null);
+
+        mockMvc.perform(get("/api/topic/999")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

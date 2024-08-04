@@ -3,7 +3,9 @@ package com.openclassrooms.mddapi.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * UserDto is a data transfer object representing a user in the system.
@@ -16,6 +18,8 @@ import lombok.Data;
  * standard methods such as getters, setters, equals, hashCode, and toString.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
     /**

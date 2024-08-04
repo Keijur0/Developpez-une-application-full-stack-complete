@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.service;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
 import com.openclassrooms.mddapi.dto.UserDto;
 import com.openclassrooms.mddapi.exception.BadRequestException;
@@ -20,8 +23,13 @@ import com.openclassrooms.mddapi.exception.NotFoundException;
 import com.openclassrooms.mddapi.mapper.UserMapper;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.payload.response.AuthResponse;
+import com.openclassrooms.mddapi.payload.response.MessageReponse;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
+import com.openclassrooms.mddapi.security.service.JwtService;
+import com.openclassrooms.mddapi.security.service.UserDetailsImpl;
+import com.openclassrooms.mddapi.security.service.UserDetailsServiceImpl;
 
 @DisplayName("User service unit tests")
 public class UserServiceTest {
@@ -37,6 +45,12 @@ public class UserServiceTest {
 
     @Mock
     private UserMapper userMapper;
+
+    @Mock
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Mock
+    private JwtService jwtService;
 
     private User user;
     private UserDto userDto;
@@ -79,28 +93,6 @@ public class UserServiceTest {
         assertThrows(NotFoundException.class, () -> userService.getUser(1L));
     }
 
-    @DisplayName("Update user - Success")
-    @Test
-    public void testUpdateUser_Success() {
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(userMapper.toEntity(userDto)).thenReturn(user);
-        when(userRepository.save(user)).thenReturn(user);
-        when(userMapper.toDto(user)).thenReturn(userDto);
-
-        UserDto result = userService.updateUser(1L, userDto);
-
-        assertEquals(userDto, result);
-        verify(userRepository).save(user);
-    }
-
-    @DisplayName("Update user - Failure: User not found")
-    @Test
-    public void testUpdateUser_NotFound() {
-        when(userRepository.findById(1L)).thenReturn(Optional.empty());
-
-        assertThrows(NotFoundException.class, () -> userService.updateUser(1L, userDto));
-    }
-
     @DisplayName("Get user subscriptions - Success")
     @Test
     public void testGetUserSubscriptions_Success() {
@@ -117,6 +109,71 @@ public class UserServiceTest {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> userService.getUserSubscriptions(1L));
+    }
+
+    @DisplayName("Update user - Success")
+    @Test
+    public void testUpdateUser_Success() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.existsByEmail(userDto.getEmail())).thenReturn(false);
+        when(userRepository.existsByUsername(userDto.getUsername())).thenReturn(false);
+        when(userDetailsService.loadUserByUsername(userDto.getUsername()))
+                .thenReturn(new UserDetailsImpl(1L, "updateduser", "updated@test.com", "Test!1234"));
+        when(jwtService.generateToken(any(UserDetailsImpl.class))).thenReturn("jwt-token");
+
+        ResponseEntity<?> response = userService.updateUser(1L, userDto);
+
+        verify(userRepository, times(1)).save(user);
+        assertEquals(userDto.getEmail(), user.getEmail());
+        assertEquals(userDto.getUsername(), user.getUsername());
+        assertTrue(response.getBody() instanceof AuthResponse);
+        AuthResponse authResponse = (AuthResponse) response.getBody();
+        assertEquals("jwt-token", authResponse.getToken());
+        assertEquals(1L, authResponse.getId());
+        assertEquals(userDto.getUsername(), authResponse.getUsername());
+        assertEquals(userDto.getEmail(), authResponse.getEmail());
+    }
+
+    @DisplayName("Update user - Failure: Email already in use")
+    @Test
+    public void testUpdateUser_EmailAlreadyInUse() {
+        Long userId = 1L;
+        UserDto userDto = new UserDto(null, "newuser", "existing@test.com");
+        User existingUser = new User();
+        existingUser.setId(userId);
+        existingUser.setUsername("olduser");
+        existingUser.setEmail("old@test.com");
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(userRepository.existsByEmail(userDto.getEmail())).thenReturn(true);
+
+        ResponseEntity<?> response = userService.updateUser(userId, userDto);
+
+        assertTrue(response.getBody() instanceof MessageReponse);
+        MessageReponse messageResponse = (MessageReponse) response.getBody();
+        assertEquals("Email already in use", messageResponse.getMessage());
+        verify(userRepository, never()).save(existingUser);
+    }
+
+    @DisplayName("Update user - Failure: Username already in use")
+    @Test
+    public void testUpdateUser_UsernameAlreadyInUse() {
+        Long userId = 1L;
+        UserDto userDto = new UserDto(null, "existinguser", "new@test.com");
+        User existingUser = new User();
+        existingUser.setId(userId);
+        existingUser.setUsername("olduser");
+        existingUser.setEmail("old@test.com");
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(userRepository.existsByUsername(userDto.getUsername())).thenReturn(true);
+
+        ResponseEntity<?> response = userService.updateUser(userId, userDto);
+
+        assertTrue(response.getBody() instanceof MessageReponse);
+        MessageReponse messageResponse = (MessageReponse) response.getBody();
+        assertEquals("Username already in use", messageResponse.getMessage());
+        verify(userRepository, never()).save(existingUser);
     }
 
     @DisplayName("Subscribe - Success")
