@@ -21,7 +21,7 @@ export class DetailComponent implements OnInit {
   public comments$: Observable<Comment[]> | undefined;
   public userId: number;
   public commentForm: FormGroup = this.formBuider.group({
-    message: ['', [Validators.required]]
+    message: ['', [Validators.required, Validators.maxLength(2000)]]
   });
 
   constructor(

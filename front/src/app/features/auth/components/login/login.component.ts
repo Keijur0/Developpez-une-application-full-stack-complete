@@ -15,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
   public hidePassword = true;
 
-  public form = this.formBuilder.group({
+  public loginForm = this.formBuilder.group({
     usernameOrEmail: ['', [Validators.required]],
     password: ['', [Validators.required]]
   });
@@ -29,7 +29,7 @@ export class LoginComponent {
   ) { }
 
   public submit(): void {
-    const loginRequest = this.form.value as LoginRequest;
+    const loginRequest = this.loginForm.value as LoginRequest;
     this.authService.login(loginRequest).subscribe({
       next: (sessionInfo: SessionInfo) => {
         localStorage.setItem('token', sessionInfo.token);

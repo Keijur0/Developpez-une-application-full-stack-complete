@@ -33,6 +33,9 @@
             <form [formGroup]="commentForm" (ngSubmit)="sendComment()">
                 <mat-form-field>
                     <textarea matInput formControlName="message" placeholder="Ecrivez ici votre commentaire"></textarea>
+                    <mat-error *ngIf="commentForm?.get('message')?.hasError('maxlength')">
+                        Le commentaire ne doit pas dépasser 2000 caractères.
+                    </mat-error>
                 </mat-form-field>
                 <button mat-icon-button type="submit">
                     <mat-icon>send</mat-icon>

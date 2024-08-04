@@ -5,9 +5,18 @@
             <form class="me-form" [formGroup]="meForm!" (ngSubmit)="save()">
                 <mat-form-field>
                     <input matInput formControlName="username">
+                    <mat-error *ngIf="meForm?.get('username')?.hasError('required')">
+                        Le nom d'utilisateur est obligatoire.
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <input matInput formControlName="email">
+                    <mat-error *ngIf="meForm?.get('email')?.hasError('required')">
+                        L'adresse email est obligatoire.
+                    </mat-error>
+                    <mat-error *ngIf="meForm?.get('email')?.hasError('email')">
+                        Le format de l'adresse email est incorrect.
+                    </mat-error>
                 </mat-form-field>
                 <button mat-raised-button color="primary" type="submit" [disabled]="meForm!.invalid"> Sauvegarder </button>
             </form>
