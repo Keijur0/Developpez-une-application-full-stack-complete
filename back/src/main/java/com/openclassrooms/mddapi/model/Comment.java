@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Represents a comment in the system
+ * Represents a comment in the system.
  * 
  * @version 1.0
  * @since 2024-07-22
@@ -33,27 +33,30 @@ import lombok.NonNull;
 @Table(name = "comments")
 public class Comment {
 
+	/**
+	 * Unique identifier for the comment.
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "comment_id")
 	private Long id;
 
 	/**
-	 * Comment's author
+	 * Author of the comment.
 	 */
 	@ManyToOne
 	@JoinColumn(name = "author_id", referencedColumnName = "user_id")
 	private User user;
 
 	/**
-	 * Comment's post
+	 * Post to which the comment belongs.
 	 */
 	@ManyToOne
 	@JoinColumn(name = "post_id", referencedColumnName = "post_id")
 	private Post post;
 
 	/**
-	 * Comment's message
+	 * The message content of the comment.
 	 */
 	@NotBlank
 	@NonNull
@@ -61,7 +64,7 @@ public class Comment {
 	private String message;
 
 	/**
-	 * Comment's creation date
+	 * Timestamp when the comment was created.
 	 */
 	@CreationTimestamp
 	@Column(name = "created_at")
