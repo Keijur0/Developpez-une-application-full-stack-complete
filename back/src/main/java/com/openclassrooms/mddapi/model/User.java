@@ -14,9 +14,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.openclassrooms.mddapi.validation.ValidPassword;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -70,6 +73,8 @@ public class User {
      */
     @NonNull
     @NotBlank
+    @Size(min = 8)
+    @ValidPassword
     private String password;
 
     /**
@@ -77,10 +82,7 @@ public class User {
      * Represents a many-to-many relationship between users and topics.
      */
     @ManyToMany
-    @JoinTable(
-            name = "Subscriptions",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "topic_id"))
+    @JoinTable(name = "Subscriptions", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
     private List<Topic> subscriptions;
 
     /**

@@ -14,7 +14,6 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
   public hidePassword = true;
-  public onError = false;
 
   public form = this.formBuilder.group({
     usernameOrEmail: ['', [Validators.required]],
