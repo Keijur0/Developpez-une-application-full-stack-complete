@@ -1,47 +1,50 @@
 <div>
-    <mat-card *ngIf="post$ | async as post">
-        <button mat-icon-button routerLink="/posts">
-            <mat-icon>
-                arrow_back
-            </mat-icon>
-        </button>
-        <mat-card-title>
-            {{ post.title | titlecase }}
-        </mat-card-title>
-        <mat-card-subtitle>
-            <p> {{ post.createdAt | date: 'longDate' }} </p>
-            <p>
+    <div class="column" *ngIf="post$ | async as post">
+        <div class="row">
+            <button class="arrow-back" mat-icon-button routerLink="/posts">
+                <mat-icon>
+                    arrow_back
+                </mat-icon>
+            </button>
+            <p class="title">
+                {{ post.title | titlecase }}
+            </p>
+        </div>
+        <div class="row info-item-container">
+            <div class="info-item"> {{ post.createdAt | date: 'longDate' }} </div>
+            <div class="info-item">
                 <app-author-name [authorId]="post.authorId"></app-author-name>
-            </p>
-            <p>
-                <app-topic-name [topicId]="post.topicId"></app-topic-name>
-            </p>
-        </mat-card-subtitle>
-        <mat-card-content>
-            <p>Content: {{ post.content }}</p>
-        </mat-card-content>
-    </mat-card>
-    <mat-card>
-        <mat-card-subtitle> Commentaires </mat-card-subtitle>
-        <mat-card-content>
-            <div *ngFor="let comment of comments$ | async">
-                    <app-author-name [authorId]="comment.userId"></app-author-name>
-                <mat-card>
-                    {{ comment.message }}
-                </mat-card>
             </div>
-            <form [formGroup]="commentForm" (ngSubmit)="sendComment()">
-                <mat-form-field>
+            <div class="info-item">
+                <app-topic-name [topicId]="post.topicId"></app-topic-name>
+            </div>
+        </div>
+        <div class="post-content">
+            <p>Content: {{ post.content }}</p>
+        </div>
+    </div>
+    <hr width="80%"/>
+    <div class="column">
+        <div class="subtitle"> Commentaires </div>
+            <div class="row center flex-wrap-container" *ngFor="let comment of comments$ | async">
+                    <app-author-name class="username" [authorId]="comment.userId"></app-author-name>
+                <div class="box">
+                    <p> {{ comment.message }} </p>
+                </div>
+            </div>
+            <form class="comment-form row center" [formGroup]="commentForm" (ngSubmit)="sendComment()">
+                <mat-form-field class="input-form" appearance="outline">
                     <textarea matInput formControlName="message" placeholder="Ecrivez ici votre commentaire"></textarea>
                     <mat-error *ngIf="commentForm?.get('message')?.hasError('maxlength')">
                         Le commentaire ne doit pas dépasser 2000 caractères.
                     </mat-error>
+                    <mat-error *ngIf="commentForm?.get('message')?.hasError('required')">
+                        Le commentaire ne peut pas être vide.
+                    </mat-error>
                 </mat-form-field>
-                <button mat-icon-button type="submit">
+                <button mat-icon-button type="submit" [disabled]="commentForm.invalid">
                     <mat-icon>send</mat-icon>
                 </button>
-                
             </form>
-        </mat-card-content>
-    </mat-card>
+    </div>
 </div>

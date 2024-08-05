@@ -23,6 +23,11 @@ public class AuthController {
 
     private final IAuthService authService;
 
+    /**
+     * Constructs an AuthController with the given authService.
+     *
+     * @param authService the authentication service
+     */
     public AuthController(IAuthService authService) {
         this.authService = authService;
     }
@@ -53,6 +58,11 @@ public class AuthController {
         return authService.register(registerRequest);
     }
 
+    /**
+     * Endpoint to get the authenticated user's details.
+     *
+     * @return a {@link ResponseEntity} containing the user's details
+     */
     @GetMapping("/me")
     public ResponseEntity<?> me() {
         return authService.me();

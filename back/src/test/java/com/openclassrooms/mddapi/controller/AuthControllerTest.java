@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
 import com.openclassrooms.mddapi.payload.request.RegisterRequest;
+import com.openclassrooms.mddapi.payload.response.AuthResponse;
 import com.openclassrooms.mddapi.service.IAuthService;
 
 @DisplayName("Authentication controller unit tests")
@@ -43,8 +44,8 @@ public class AuthControllerTest {
     @Test
     public void testLogin_Success() throws Exception {
         LoginRequest loginRequest = new LoginRequest(
-                            "test",
-                            "password");
+                "test",
+                "Test!1234");
 
         when(authService.login(loginRequest)).thenReturn(ResponseEntity.ok(null));
 
@@ -58,8 +59,8 @@ public class AuthControllerTest {
     @Test
     public void testLogin_Failure() throws Exception {
         LoginRequest loginRequest = new LoginRequest(
-                            "test",
-                            "wrongpassword");
+                "test",
+                "wrongpassword");
 
         when(authService.login(loginRequest)).thenReturn(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null));
 
@@ -73,9 +74,9 @@ public class AuthControllerTest {
     @Test
     public void testRegister_Success() throws Exception {
         RegisterRequest registerRequest = new RegisterRequest(
-                            "newuser",
-                            "newuser@test.com",
-                            "password");
+                "newuser",
+                "newuser@test.com",
+                "Test!1234");
 
         when(authService.register(registerRequest)).thenReturn(ResponseEntity.ok(null));
 
@@ -89,15 +90,32 @@ public class AuthControllerTest {
     @Test
     public void testRegister_Failure() throws Exception {
         RegisterRequest registerRequest = new RegisterRequest(
-                            "",
-                            "newuser@test.com",
-                            "password");
+                "",
+                "newuser@test.com",
+                "Test!1234");
 
-        when(authService.register(registerRequest)).thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
+        when(authService.register(registerRequest))
+                .thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
 
         mockMvc.perform(post("/api/auth/register")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(registerRequest)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("Get authenticated user's details - Success")
+    @Test
+    public void testMe_Success() throws Exception {
+        AuthResponse authResponse = new AuthResponse(
+                "jwt",
+                1L,
+                "test",
+                "test@test.com");
+        when(authService.me()).thenReturn(ResponseEntity.ok(null));
+
+        mockMvc.perform(get("/api/auth/me")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(authResponse)))
+                .andExpect(status().isOk());
     }
 }

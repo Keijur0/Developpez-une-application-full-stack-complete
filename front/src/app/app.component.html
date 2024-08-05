@@ -1,14 +1,14 @@
 <div>
-    <mat-toolbar class="toolbar-container" *ngIf="showToolbar">
+    <div class="toolbar-container row" *ngIf="showToolbar">
         <img class="toolbar-logo" src="/assets/logo_p6.png" alt="logo"/>
         <div class="toolbar-items link" *ngIf="isLoggedIn$() | async">
-            <span routerLink="/posts"> Articles </span>
-            <span routerLink="/topic"> Thèmes </span>
-            <button mat-icon-button class="account-logo" routerLink="/me">
+            <span class="toolbar-item" routerLink="/posts" routerLinkActive="active"> Articles </span>
+            <span class="toolbar-item" routerLink="/topic" routerLinkActive="active"> Thèmes </span>
+            <button mat-icon-button class="account-logo" routerLink="/me" routerLinkActive="active">
                 <mat-icon> account_circle </mat-icon>
             </button>
         </div>
-    </mat-toolbar>
+    </div>
 </div>
 <div>
     <router-outlet></router-outlet>

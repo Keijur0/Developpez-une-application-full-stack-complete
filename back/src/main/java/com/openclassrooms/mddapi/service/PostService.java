@@ -14,12 +14,12 @@ import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
 /**
- * Service for managing posts in the app.
- * 
+ * Service for managing posts in the application.
+ * <p>
  * Provides methods to retrieve and create posts.
- * Interacts with PostRepository.
+ * Interacts with {@link PostRepository} and {@link UserRepository}.
+ * </p>
  */
-
 @Service
 public class PostService implements IPostService {
 
@@ -28,7 +28,16 @@ public class PostService implements IPostService {
 	private final UserRepository userRepository;
 
 	private final PostMapper postMapper;
-	
+
+	/**
+	 * Constructs a new {@link PostService} with the specified repositories and
+	 * mapper.
+	 * 
+	 * @param postRepository the repository for managing posts
+	 * @param userRepository the repository for managing users
+	 * @param postMapper     the mapper to convert between {@link Post} and
+	 *                       {@link PostDto}
+	 */
 	public PostService(PostRepository postRepository, UserRepository userRepository, PostMapper postMapper) {
 		this.postRepository = postRepository;
 		this.userRepository = userRepository;
@@ -36,9 +45,11 @@ public class PostService implements IPostService {
 	}
 
 	/**
-	 * Retrieves a post by id
-	 * @param id
-	 * @return
+	 * Retrieves a post by its unique identifier.
+	 * 
+	 * @param id the unique identifier of the post
+	 * @return a {@link PostDto} representing the requested post
+	 * @throws NotFoundException if no post is found with the given id
 	 */
 	public PostDto getPost(Long id) {
 		Post post = postRepository.findById(id).orElseThrow(() -> new NotFoundException());
@@ -46,9 +57,10 @@ public class PostService implements IPostService {
 	}
 
 	/**
-	 * Creates a post
-	 * @param post
-	 * @return PostDto
+	 * Creates a new post with the provided data.
+	 * 
+	 * @param postDto the data transfer object containing the post details
+	 * @return a {@link PostDto} representing the created post
 	 */
 	public PostDto createPost(PostDto postDto) {
 		Post post = postRepository.save(postMapper.toEntity(postDto));
@@ -56,9 +68,12 @@ public class PostService implements IPostService {
 	}
 
 	/**
-	 * Retrieves all posts subscribed by a user
-	 * @param userId
-	 * @return List<PostDto>
+	 * Retrieves all posts that the specified user is subscribed to.
+	 * 
+	 * @param userId the unique identifier of the user
+	 * @return a list of {@link PostDto} representing the posts subscribed by the
+	 *         user
+	 * @throws NotFoundException if no user is found with the given id
 	 */
 	public List<PostDto> getSubscribedPosts(Long userId) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException());
@@ -66,5 +81,4 @@ public class PostService implements IPostService {
 		List<Post> subscribedPosts = postRepository.findByTopicIn(subscribedTopics);
 		return postMapper.toDto(subscribedPosts);
 	}
-	
 }

@@ -21,6 +21,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.openclassrooms.mddapi.validation.ValidPassword;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -35,6 +36,7 @@ import lombok.NonNull;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User {
 

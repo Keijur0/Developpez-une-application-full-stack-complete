@@ -3,9 +3,12 @@ package com.openclassrooms.mddapi.dto;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * PostDto is a data transfer object representing a post in the system.
@@ -18,6 +21,8 @@ import lombok.Data;
  * standard methods such as getters, setters, equals, hashCode, and toString.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PostDto {
 
     /**
@@ -28,7 +33,7 @@ public class PostDto {
     /**
      * The ID of the topic associated with the post.
      */
-    @NotBlank
+    @NotNull
     private Long topicId;
 
     /**
@@ -41,7 +46,7 @@ public class PostDto {
     /**
      * The ID of the author who created the post.
      */
-    @NotBlank
+    @NotNull
     private Long authorId;
 
     /**

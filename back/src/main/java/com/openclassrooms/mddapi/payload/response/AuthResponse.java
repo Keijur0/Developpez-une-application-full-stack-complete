@@ -2,13 +2,16 @@ package com.openclassrooms.mddapi.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * A response class representing the authentication result.
- * This class typically contains a JWT token used for authenticating subsequent requests.
+ * This class typically contains a JWT token used for authenticating subsequent
+ * requests.
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AuthResponse {
 
     /**

@@ -1,0 +1,42 @@
+.username {
+    flex-grow: 0.05%;
+    flex-direction: row-reverse;
+    align-self:flex-start;
+}
+
+.input-form {
+    width: 70%;
+}
+
+.title {
+    margin-top: 11px;
+}
+
+.info-item-container {
+    margin-left: 5.5%;
+    font-size: 15px;
+}
+
+.info-item {
+    margin-left: 5%;
+}
+
+.post-content {
+    font-size: 15px;
+    margin-left: 10%;
+    margin-top: 15px;
+    margin-right: 10%;
+}
+
+.box {
+    width: 60%;
+    height: auto;
+    overflow: visible;
+    word-wrap: break-word;
+    word-break: break-word;
+    flex-direction: column;
+}
+
+.flex-wrap-container {
+    gap: 10px
+}
