@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.dto;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -32,7 +33,7 @@ public class PostDto {
     /**
      * The ID of the topic associated with the post.
      */
-    @NotBlank
+    @NotNull
     private Long topicId;
 
     /**
@@ -45,7 +46,7 @@ public class PostDto {
     /**
      * The ID of the author who created the post.
      */
-    @NotBlank
+    @NotNull
     private Long authorId;
 
     /**

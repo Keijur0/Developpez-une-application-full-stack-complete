@@ -1,15 +1,15 @@
 <div>
-    <mat-card>
-        <mat-card-title> Profil utilisateur </mat-card-title>
-        <mat-card-content>
-            <form class="me-form" [formGroup]="meForm!" (ngSubmit)="save()">
-                <mat-form-field>
+    <div class="column center">
+        <div class="title"> Profil utilisateur </div>
+        <div class="column">
+            <form class="me-form column center" [formGroup]="meForm!" (ngSubmit)="save()">
+                <mat-form-field class="input-form" appearance="outline">
                     <input matInput formControlName="username">
                     <mat-error *ngIf="meForm?.get('username')?.hasError('required')">
                         Le nom d'utilisateur est obligatoire.
                     </mat-error>
                 </mat-form-field>
-                <mat-form-field>
+                <mat-form-field class="input-form" appearance="outline">
                     <input matInput formControlName="email">
                     <mat-error *ngIf="meForm?.get('email')?.hasError('required')">
                         L'adresse email est obligatoire.
@@ -20,14 +20,22 @@
                 </mat-form-field>
                 <button mat-raised-button color="primary" type="submit" [disabled]="meForm!.invalid"> Sauvegarder </button>
             </form>
-            <button class="disconnect-button" mat-flat-button (click)="logout()"> Se déconnecter </button>
-        </mat-card-content>
-    </mat-card>
-    <mat-card *ngFor="let topic of (subscribedTopics$ | async)">
-        <mat-card-title> {{topic.name}} </mat-card-title>
-        <mat-card-content>
-            Description: {{topic.description}}
-        </mat-card-content>
-            <button mat-raised-button color="primary" (click)="unsubscribe(topic.id)"> Se désabonner </button> 
-    </mat-card>
+            <p class="link center disconnect-button" (click)="logout()"> Se déconnecter </p>
+        </div>
+    </div>
+    <hr width="80%"/>
+    <div class="center">
+        <mat-card-title> Abonnements </mat-card-title>
+    </div>
+    <div class="flex-wrap-container center">
+        <div class="box" *ngFor="let topic of (subscribedTopics$ | async)">
+            <div class="box-title"> {{topic.name}} </div>
+            <div class="box-content">
+                Description: {{topic.description}}
+            </div>
+            <div class="bottom-card-button">
+                <button mat-raised-button color="primary" (click)="unsubscribe(topic.id)"> Se désabonner </button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -53,6 +53,7 @@ export class MeComponent implements OnInit {
     this.userService.update(this.userId, user).subscribe({
       next: (sessionInfo: SessionInfo) => {
         this.sessionInfo = sessionInfo;
+        localStorage.setItem('token', sessionInfo.token);
         this.sessionService.logIn(sessionInfo);
         this.matSnackBar.open('Profil sauvegardé avec succès', 'Fermer', { duration: 3000 });
       }

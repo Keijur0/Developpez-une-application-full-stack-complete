@@ -9,3 +9,92 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .link {
     cursor: pointer;
 }
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottom-card-button {
+    margin-top: auto;
+    align-self: center;
+}
+
+.input-form {
+    width: 300px;
+}
+
+.arrow-back {
+    margin-right: auto;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 15px;
+    margin-left: 10%;
+    margin-top: 10px;
+}
+
+.info-item {
+    margin-right: 100px;
+}
+
+.info-item-container {
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+.flex-wrap-container {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 40px;
+    row-gap: 25px;
+    padding: 10px;
+    justify-items: center;
+}
+
+.box {
+    height: 200px;
+    width: 420px;
+    padding: 15px;
+    display: flex;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    border-radius: 10px;
+    background-color: rgb(243, 243, 243);
+    flex-direction: column;
+}
+
+.box-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.box-content {
+    margin-top: 10px;
+    max-height: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    color: blueviolet;
+}

@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -31,13 +32,13 @@ public class CommentDto {
     /**
      * The ID of the user who made the comment.
      */
-    @NotBlank
+    @NotNull
     private Long userId;
 
     /**
      * The ID of the post associated with the comment.
      */
-    @NotBlank
+    @NotNull
     private Long postId;
 
     /**

@@ -1,43 +1,41 @@
 <div>
-    <mat-card>
-        <button mat-icon-button routerLink="/posts">
-            <mat-icon>arrow_back</mat-icon>
-        </button>
-        <mat-card-header>
-            <mat-card-title> Créer un nouvel article </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <form class="postForm" [formGroup]="postForm" (ngSubmit)="submit()">
-                <mat-form-field>
-                    <mat-select ngDefaultControl formControlName="topicId" placeholder="Sélectionner un thème">
-                        <mat-option *ngFor="let topic of topics$ | async" [value]="topic.id">
-                            {{ topic.name }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="postForm?.get('topicId')?.hasError('required')">
-                        Le thème est obligatoire.
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput formControlName="title" placeholder="Titre de l'article">
-                    <mat-error *ngIf="postForm?.get('title')?.hasError('required')">
-                        Le titre est obligatoire.
-                    </mat-error>
-                    <mat-error *ngIf="postForm?.get('title')?.hasError('maxlength')">
-                        Le titre ne doit pas dépasser 100 caractères.
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field>
-                    <textarea matInput formControlName="content" placeholder="Contenu de l'article"></textarea>
-                    <mat-error *ngIf="postForm?.get('content')?.hasError('required')">
-                        Le contenu est obligatoire.
-                    </mat-error>
-                    <mat-error *ngIf="postForm?.get('content')?.hasError('maxlength')">
-                        Le contenu ne doit pas dépasser 10000 caractères.
-                    </mat-error>
-                </mat-form-field>
-                <button mat-raised-button type="submit" color="primary" [disabled]="postForm.invalid"> Créer </button>
-            </form>
-        </mat-card-content>
-    </mat-card>
+    <div class="column">
+        <mat-card-title class="row">
+            <button class="arrow-back" mat-icon-button routerLink="/posts">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <div class="center title">Créer un nouvel article</div>
+        </mat-card-title>
+        <form class="post-form column center" [formGroup]="postForm" (ngSubmit)="submit()">
+            <mat-form-field class="input-form" appearance="outline">
+                <mat-select ngDefaultControl formControlName="topicId" placeholder="Sélectionner un thème">
+                    <mat-option *ngFor="let topic of topics$ | async" [value]="topic.id">
+                        {{ topic.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="postForm?.get('topicId')?.hasError('required')">
+                    Le thème est obligatoire.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input-form" appearance="outline">
+                <input matInput formControlName="title" placeholder="Titre de l'article">
+                <mat-error *ngIf="postForm?.get('title')?.hasError('required')">
+                    Le titre est obligatoire.
+                </mat-error>
+                <mat-error *ngIf="postForm?.get('title')?.hasError('maxlength')">
+                    Le titre ne doit pas dépasser 100 caractères.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input-form" appearance="outline">
+                <textarea matInput formControlName="content" placeholder="Contenu de l'article"></textarea>
+                <mat-error *ngIf="postForm?.get('content')?.hasError('required')">
+                    Le contenu est obligatoire.
+                </mat-error>
+                <mat-error *ngIf="postForm?.get('content')?.hasError('maxlength')">
+                    Le contenu ne doit pas dépasser 10000 caractères.
+                </mat-error>
+            </mat-form-field>
+            <button mat-raised-button type="submit" color="primary" [disabled]="postForm.invalid"> Créer </button>
+        </form>
+    </div>
 </div>
