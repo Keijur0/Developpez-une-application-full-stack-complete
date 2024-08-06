@@ -9,6 +9,19 @@
     font-weight: bold;
 }
 
+.box {
+    height: 150px;
+    padding: 15px;
+    display: flex;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    border-radius: 10px;
+    background-color: rgb(243, 243, 243);
+    flex-direction: column;
+}
+
 @media (max-width: 600px) {
     .title {
         margin-bottom: 20px;
