@@ -27,22 +27,27 @@
     <div class="column">
         <div class="subtitle"> Commentaires </div>
             <div class="row center flex-wrap-container" *ngFor="let comment of comments$ | async">
-                    <app-author-name class="username" [authorId]="comment.userId"></app-author-name>
+                <app-author-name class="username" [authorId]="comment.userId"></app-author-name>
                 <div class="box">
                     <p> {{ comment.message }} </p>
                 </div>
             </div>
-            <form class="comment-form row center" [formGroup]="commentForm" (ngSubmit)="sendComment()">
+            <form class="comment-form row center" [formGroup]="commentForm!" (ngSubmit)="sendComment()">
                 <mat-form-field class="input-form" appearance="outline">
-                    <textarea matInput formControlName="message" placeholder="Ecrivez ici votre commentaire"></textarea>
-                    <mat-error *ngIf="commentForm?.get('message')?.hasError('maxlength')">
-                        Le commentaire ne doit pas dépasser 2000 caractères.
-                    </mat-error>
-                    <mat-error *ngIf="commentForm?.get('message')?.hasError('required')">
-                        Le commentaire ne peut pas être vide.
-                    </mat-error>
+                    <div class="row">
+                        <textarea rows="5" matInput formControlName="message" placeholder="Ecrivez ici votre commentaire"></textarea>
+                        <button class="inner-button" mat-icon-button matSuffix (click)="sendComment()" [disabled]="commentForm!.invalid">
+                            <mat-icon>send</mat-icon>
+                        </button>
+                    </div>
+                        <mat-error *ngIf="commentForm!.get('message')?.hasError('maxlength')">
+                            Le commentaire ne doit pas dépasser 2000 caractères.
+                        </mat-error>
+                        <mat-error *ngIf="commentForm!.get('message')?.hasError('required')">
+                            Le commentaire ne peut pas être vide.
+                        </mat-error>
                 </mat-form-field>
-                <button mat-icon-button type="submit" [disabled]="commentForm.invalid">
+                <button class="send-button" mat-icon-button type="submit" [disabled]="commentForm!.invalid">
                     <mat-icon>send</mat-icon>
                 </button>
             </form>

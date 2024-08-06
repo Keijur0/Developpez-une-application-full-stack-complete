@@ -1,12 +1,12 @@
 <div>
     <div class="column">
-        <mat-card-title class="row">
+        <div class="row">
             <button class="arrow-back" mat-icon-button routerLink="/posts">
                 <mat-icon>arrow_back</mat-icon>
             </button>
-            <div class="center title">Créer un nouvel article</div>
-        </mat-card-title>
+        </div>
         <form class="post-form column center" [formGroup]="postForm" (ngSubmit)="submit()">
+            <div class="title">Créer un nouvel article</div>
             <mat-form-field class="input-form" appearance="outline">
                 <mat-select ngDefaultControl formControlName="topicId" placeholder="Sélectionner un thème">
                     <mat-option *ngFor="let topic of topics$ | async" [value]="topic.id">
@@ -27,7 +27,7 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="input-form" appearance="outline">
-                <textarea matInput formControlName="content" placeholder="Contenu de l'article"></textarea>
+                <textarea rows="10" matInput formControlName="content" placeholder="Contenu de l'article"></textarea>
                 <mat-error *ngIf="postForm?.get('content')?.hasError('required')">
                     Le contenu est obligatoire.
                 </mat-error>

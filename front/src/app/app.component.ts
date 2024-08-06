@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService } from './features/auth/services/auth.service';
 import { SessionInfo } from './interfaces/sessionInfo.interface';
 import { SessionService } from './services/session.service';
@@ -12,20 +13,23 @@ import { SessionService } from './services/session.service';
 })
 export class AppComponent implements OnInit {
 
-  public showToolbar: boolean = true;
+  public hideToolbar: boolean = false;
+
+  @ViewChild('sidenav') sidenav: MatSidenav | undefined;
 
   constructor(
     private sessionService: SessionService,
     private authService: AuthService,
     private router: Router
-  ) {
-    this.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
-        this.showToolbar = event.url !== '/';
-      });
-  }
+  ) {}
+
   public ngOnInit(): void {
     this.autoLog();
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd) {
+        this.isToolbarVisible();
+      }
+    });
   }
 
   public isLoggedIn$(): Observable<boolean> {
@@ -37,6 +41,18 @@ export class AppComponent implements OnInit {
       (sessionInfo: SessionInfo) => {
         this.sessionService.logIn(sessionInfo);
       });
+  }
+
+  private isToolbarVisible(): void {
+    const currentRoute = this.router.url;
+    const isMobile = window.innerWidth <= 600;
+    const isHomepage = currentRoute === '/';
+
+    this.hideToolbar = (isMobile && (currentRoute.includes('auth/login') || currentRoute.includes('auth/register') || isHomepage)) || (!isMobile && isHomepage);
+  }
+
+  public closeSidenav() {
+    this.sidenav?.close();
   }
 
 }

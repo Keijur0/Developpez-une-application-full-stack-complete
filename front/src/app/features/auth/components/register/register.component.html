@@ -3,9 +3,9 @@
         <mat-icon>arrow_back</mat-icon>
     </button>
     <div class="column center">
+        <img class="logo" src="/assets/logo_p6.png" alt="logo"/>
         <div class="title">Inscription</div>
-        <form class="register-form column center" [formGroup]="registerForm">
-            <div>
+        <form class="register-form column" [formGroup]="registerForm">
                 <div>Nom d'utilisateur</div>
                 <mat-form-field class="input-form" appearance="outline">
                     <input matInput formControlName="username">
@@ -36,7 +36,6 @@
                         Le mot de passe doit contenir au moins 8 caractères, au moins une majuscule, une minuscule, un chiffre et un caractère spécial.
                     </mat-error>
                 </mat-form-field>
-            </div>
             <button class="submit-button" mat-raised-button color="primary" (click)="submit()" [disabled]="registerForm.invalid"> S'inscrire </button>
         </form>
     </div>

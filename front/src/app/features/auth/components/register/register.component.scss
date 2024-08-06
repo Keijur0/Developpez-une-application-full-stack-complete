@@ -5,3 +5,15 @@
 .submit-button {
     margin-top: 35px
 }
+
+.logo {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .logo {
+        display: block;
+        height: 130px;
+        width: auto;
+    }
+}

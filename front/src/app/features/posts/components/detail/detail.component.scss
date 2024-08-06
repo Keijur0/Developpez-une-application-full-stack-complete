@@ -1,7 +1,21 @@
+
+
 .username {
     flex-grow: 0.05%;
     flex-direction: row-reverse;
     align-self:flex-start;
+}
+
+.send-button {
+    align-self: center;
+    transform: scale(2) rotate(-45deg);
+    color: blueviolet;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.inner-button {
+    display: none !important;
 }
 
 .input-form {
@@ -38,5 +52,74 @@
 }
 
 .flex-wrap-container {
-    gap: 10px
+    flex-direction:row;
+    gap: 10px;
+}
+
+@media (max-width: 600px) {
+    .info-item {
+        margin-left: 1%;
+        margin-bottom: 5px;
+    }
+
+    .info-item-container {
+        display: flex;
+        margin-left: 1%;
+        font-size: 15px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: left;
+    }
+
+    .post-content {
+        font-size: 15px;
+        margin-left: 1%;
+        margin-top: 15px;
+        margin-right: 1%;
+    }
+
+    .send-button {
+        display: none;
+    }
+
+    .inner-button {
+        display: grid !important;
+        align-self: center;
+        justify-self: end;
+        transform: scale(2) rotate(-45deg);
+        color: blueviolet;
+    }
+
+    .input-form {
+        display: grid;
+        width: 100%;
+    }
+
+    .comment-form {
+        display: flex;
+    }
+
+    .flex-wrap-container {
+        flex-direction: column-reverse;
+        row-gap: 0px;
+    }
+
+    .username {
+        flex-grow: 0.05%;
+        flex-direction: row-reverse;
+        align-self: end;
+        justify-self: end;
+    }
+
+    .box {
+        width: 80%;
+        height: auto;
+        overflow: visible;
+        word-wrap: break-word;
+        word-break: break-word;
+        flex-direction: column;
+        background-color: transparent;
+        justify-self: flex-end;
+    }
+
 }

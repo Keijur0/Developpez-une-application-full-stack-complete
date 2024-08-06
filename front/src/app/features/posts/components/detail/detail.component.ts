@@ -20,9 +20,8 @@ export class DetailComponent implements OnInit {
   public postId: number;
   public comments$: Observable<Comment[]> | undefined;
   public userId: number;
-  public commentForm: FormGroup = this.formBuider.group({
-    message: ['', [Validators.required, Validators.maxLength(2000)]]
-  });
+  public commentForm: FormGroup | undefined;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -39,17 +38,26 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchComments();
+    this.initForm();
+  }
+
+  public initForm() {
+    this.commentForm = this.formBuider.group({
+      message: ['', [Validators.required, Validators.maxLength(2000)]]
+    });
+  
   }
 
   public sendComment(): void {
     console.log("send");
-    let comment = this.commentForm.value as Comment;
+    let comment = this.commentForm?.value as Comment;
     comment.userId = this.userId;
     comment.postId = this.postId;
     this.commentService.createComment(comment).subscribe({
       next: _ => {
         this.matSnackBar.open('Commentaire envoyé avec succès', 'Fermer', { duration: 3000 });
         this.fetchComments();
+        this.initForm();
       }
     })
   }

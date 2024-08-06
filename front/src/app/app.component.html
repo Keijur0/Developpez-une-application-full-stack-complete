@@ -1,15 +1,31 @@
-<div>
-    <div class="toolbar-container row" *ngIf="showToolbar">
-        <img class="toolbar-logo" src="/assets/logo_p6.png" alt="logo"/>
-        <div class="toolbar-items link" *ngIf="isLoggedIn$() | async">
-            <span class="toolbar-item" routerLink="/posts" routerLinkActive="active"> Articles </span>
-            <span class="toolbar-item" routerLink="/topic" routerLinkActive="active"> Thèmes </span>
-            <button mat-icon-button class="account-logo" routerLink="/me" routerLinkActive="active">
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="push" position="end">
+        <div class="sidenav-div">
+            <mat-nav-list class="sidenav-list">
+                <span class="sidenav-item link" routerLink="/posts" routerLinkActive="active" (click)="closeSidenav()"> Articles </span>
+                <span class="sidenav-item link" routerLink="/topic" routerLinkActive="active" (click)="closeSidenav()"> Thèmes </span>
+            </mat-nav-list>
+            <button mat-icon-button class="sidenav-account-logo" routerLink="/me" routerLinkActive="active" (click)="closeSidenav()">
                 <mat-icon> account_circle </mat-icon>
             </button>
         </div>
-    </div>
-</div>
-<div>
-    <router-outlet></router-outlet>
-</div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div>
+            <div class="toolbar-container row" [ngClass]="{'hide-toolbar' : hideToolbar}">
+                <img class="toolbar-logo" src="/assets/logo_p6.png" alt="logo"/>
+                <div class="toolbar-items link" *ngIf="isLoggedIn$() | async">
+                    <span class="toolbar-item" routerLink="/posts" routerLinkActive="active"> Articles </span>
+                    <span class="toolbar-item" routerLink="/topic" routerLinkActive="active"> Thèmes </span>
+                    <button mat-icon-button class="account-logo" routerLink="/me" routerLinkActive="active">
+                        <mat-icon> account_circle </mat-icon>
+                    </button>
+                </div>
+                <button class="sidenav-button" mat-icon-button (click)="sidenav.toggle()">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+        </div>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
