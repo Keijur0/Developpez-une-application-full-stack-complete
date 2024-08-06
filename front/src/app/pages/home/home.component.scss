@@ -1,7 +1,26 @@
 .center {
-  height: 80vh;
+  height: 700px;
 }
 
 .home-button {
-  margin: 5vh;
+  margin: 50px;
+}
+
+@media (max-width: 600px) {
+  .logo {
+    height: 150px;
+    width: auto;
+    margin-bottom: 20px;
+  }
+
+  .home-button {
+    margin: 15px;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: unset;
+}
 }

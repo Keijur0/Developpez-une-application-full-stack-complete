@@ -1,7 +1,6 @@
 <div>
-    <div class="column center">
-        <div class="title"> Profil utilisateur </div>
-        <div class="column">
+    <div class="column">
+        <div class="title center"> Profil utilisateur </div>
             <form class="me-form column center" [formGroup]="meForm!" (ngSubmit)="save()">
                 <mat-form-field class="input-form" appearance="outline">
                     <input matInput formControlName="username">
@@ -21,11 +20,10 @@
                 <button mat-raised-button color="primary" type="submit" [disabled]="meForm!.invalid"> Sauvegarder </button>
             </form>
             <p class="link center disconnect-button" (click)="logout()"> Se déconnecter </p>
-        </div>
     </div>
     <hr width="80%"/>
     <div class="center">
-        <mat-card-title> Abonnements </mat-card-title>
+        <div class="title2"> Abonnements </div>
     </div>
     <div class="flex-wrap-container center">
         <div class="box" *ngFor="let topic of (subscribedTopics$ | async)">

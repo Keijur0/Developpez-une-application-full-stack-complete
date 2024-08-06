@@ -38,6 +38,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .arrow-back {
     margin-right: auto;
+    transform: scale(1.3);
 }
 
 .title {
@@ -56,8 +57,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .info-item-container {
+    display: flex;
     font-size: 15px;
     margin-top: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: left;
 }
 
 .flex-wrap-container {
@@ -97,4 +102,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mat-form-field-appearance-outline .mat-form-field-outline {
     color: blueviolet;
+}
+
+@media (max-width: 600px) {
+    .subtitle {
+        font-size: 15px;
+        margin-left: 1%;
+        margin-top: 5px;
+    }
 }

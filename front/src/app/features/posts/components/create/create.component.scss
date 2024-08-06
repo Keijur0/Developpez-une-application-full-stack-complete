@@ -1,0 +1,18 @@
+.title {
+    margin-bottom: 30px;
+}
+
+@media (max-width: 600px) {
+    .row {
+        display:grid;
+    }
+
+    .arrow-back {
+        justify-self:left;
+    }
+
+    .title {
+        justify-self: center;
+        margin-bottom: 30px;
+    }
+}

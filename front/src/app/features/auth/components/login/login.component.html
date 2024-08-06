@@ -3,9 +3,9 @@
         <mat-icon>arrow_back</mat-icon>
     </button>
     <div class="column center">
-        <div class="title center">Se connecter</div>
-        <form class="login-form column center" [formGroup]="loginForm">
-            <div>
+        <img class="logo center" src="/assets/logo_p6.png" alt="logo"/>
+        <div class="title">Se connecter</div>
+        <form class="login-form column" [formGroup]="loginForm">
                 <div>Email ou nom d'utilisateur</div>
                 <mat-form-field class="input-form" appearance="outline">
                     <input matInput label="E-mail ou nom d'utilisateur" formControlName="usernameOrEmail">
@@ -17,9 +17,7 @@
                         <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>
                 </mat-form-field>
-            </div>
             <button mat-raised-button color="primary" (click)="submit()" [disabled]="loginForm.invalid"> Se connecter </button>
         </form>
     </div>
-
 </div>
