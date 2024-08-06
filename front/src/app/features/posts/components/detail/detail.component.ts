@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SessionService } from 'src/app/services/session.service';
 import { Comment } from '../../interfaces/comment.interface';
@@ -16,7 +16,7 @@ import { PostService } from '../../services/post.service';
 })
 export class DetailComponent implements OnInit {
 
-  public post$: Observable<Post> | undefined;
+  public post: Post | undefined;
   public postId: number;
   public comments$: Observable<Comment[]> | undefined;
   public userId: number;
@@ -29,16 +29,22 @@ export class DetailComponent implements OnInit {
     private sessionService: SessionService,
     private commentService: CommentService,
     private formBuider: FormBuilder,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private router: Router
   ) {
     this.postId = parseInt(this.route.snapshot.paramMap.get('id')!);
     this.userId = this.sessionService.sessionInfo!.id;
-    this.post$ = this.postService.detail(this.postId);
   }
 
   ngOnInit(): void {
     this.fetchComments();
     this.initForm();
+    this.postService.detail(this.postId).subscribe({
+      next: (post: Post) => {
+        this.post = post;
+      },
+      error: _ => this.router.navigate(['not-found'])
+    })
   }
 
   public initForm() {

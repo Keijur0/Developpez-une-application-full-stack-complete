@@ -9,8 +9,4 @@ export class NotFoundComponent {
 
   constructor() {}
 
-  public back(): void {
-    window.history.back();
-  }
-
 }

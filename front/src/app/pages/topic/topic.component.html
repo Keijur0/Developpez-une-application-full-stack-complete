@@ -5,7 +5,7 @@
             Description: {{topic.description}}
         </div>
         <div class="bottom-card-button">
-                <button mat-raised-button color="primary" (click)="subscribe(topic.id)" [disabled]="isSubscribed$(topic.id) | async"> S'abonner </button>
+            <button mat-raised-button color="primary" (click)="subscribe(topic.id)" [disabled]="isSubscribed$(topic.id) | async"> S'abonner </button>
         </div>
     </div>
 </div>
