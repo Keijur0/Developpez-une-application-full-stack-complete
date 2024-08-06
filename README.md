@@ -98,7 +98,7 @@ La `Hex Key` sera la `<clé secrète>` dans la commande suivante.
 
 Une fois effectué, placez-vous dans le dossier `/back` du projet et tappez la commande:
 
-`mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.username=<nom d'utilisateur> --spring.datasource.password=<mot de passe> --jwt.secret=<clé secrète>"`
+`mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.username=<nom d'utilisateur> --spring.datasource.password=<mot de passe> --secret.key=<clé secrète>"`
 
 ## Lancer le projet Angular (Frontend)
 Pour lancer le projet Angular, placez-vous dans le dossier `/front` du projet et tappez la commande:
