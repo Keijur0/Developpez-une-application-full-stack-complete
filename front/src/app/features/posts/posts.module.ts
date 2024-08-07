@@ -37,7 +37,6 @@ import { PostsRoutingModule } from './posts-routing.module';
     FormsModule,
     ReactiveFormsModule,
     SharedModule
-
   ]
 })
 export class PostsModule { }

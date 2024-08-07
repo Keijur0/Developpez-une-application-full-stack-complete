@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { HttpClientModule } from '@angular/common/http';
+import { expect } from '@jest/globals';
 import { AuthorNameComponent } from './author-name.component';
 
 describe('AuthorNameComponent', () => {
@@ -8,7 +10,10 @@ describe('AuthorNameComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AuthorNameComponent ]
+      declarations: [ AuthorNameComponent ],
+      imports: [
+        HttpClientModule
+      ]
     })
     .compileComponents();
 
