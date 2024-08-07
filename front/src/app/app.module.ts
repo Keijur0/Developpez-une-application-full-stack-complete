@@ -19,13 +19,15 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { HomeComponent } from './pages/home/home.component';
 import { MeComponent } from './pages/me/me.component';
 import { TopicComponent } from './pages/topic/topic.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     TopicComponent,
-    MeComponent
+    MeComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
