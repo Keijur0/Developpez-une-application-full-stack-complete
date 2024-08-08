@@ -111,3 +111,7 @@ Pour utiliser l'application, rendez vous à l'url suivante sur votre navigateur 
 `http://localhost:4200`
 
 Il n'y a pas d'identifiants par défaut, vous pouvez créer votre propre compte utilisateur en vous inscrivant sur le site.
+
+## Accéder à la documentation des endpoints
+
+`http://localhost:9000/swagger-ui.html`
