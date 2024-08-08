@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.service.ICommentService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 /**
  * REST controller for managing comments.
  * This controller provides endpoints for retrieving and creating comments
@@ -29,6 +33,7 @@ import com.openclassrooms.mddapi.service.ICommentService;
  */
 @RestController
 @RequestMapping("/api/comment")
+@Tag(name = "Comment endpoints")
 public class CommentController {
 
     private final ICommentService commentService;
@@ -44,6 +49,11 @@ public class CommentController {
      * @return a {@link ResponseEntity} containing a list of {@link CommentDto}
      *         objects
      */
+    @Operation(description = "This endpoint is used to get all the comments from a post, and returns the list of comments.", summary = "Gets all comments from a post.", responses = {
+            @ApiResponse(description = "Success: Returns the comments.", responseCode = "200"),
+            @ApiResponse(description = "Unauthorized: The request is missing a valid token", responseCode = "401"),
+            @ApiResponse(description = "Not found: The post does not exist in the database.", responseCode = "404")
+    })
     @GetMapping("/{postId}")
     public ResponseEntity<?> getComments(@PathVariable("postId") Long postId) {
         return ResponseEntity.ok(commentService.getComments(postId));
@@ -56,6 +66,10 @@ public class CommentController {
      *                   comment to be created
      * @return a {@link ResponseEntity} containing the created {@link CommentDto}
      */
+    @Operation(description = "This endpoint is used to create a new comment under a post. The content of the message is provided by the user.", summary = "Creates a comment to a post.", responses = {
+            @ApiResponse(description = "Success: Creates the comment.", responseCode = "200"),
+            @ApiResponse(description = "Unauthorized: The request is missing a valid token", responseCode = "401"),
+    })
     @PostMapping
     public ResponseEntity<?> createComment(@Valid @RequestBody CommentDto commentDto) {
         return ResponseEntity.ok(commentService.createComment(commentDto));
