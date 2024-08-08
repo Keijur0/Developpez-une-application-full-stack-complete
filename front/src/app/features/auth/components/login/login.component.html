@@ -13,11 +13,11 @@
                 <div>Mot de passe</div>
                 <mat-form-field class="input-form" appearance="outline">
                     <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
-                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                    <button role="passwordVisibility" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
                         <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>
                 </mat-form-field>
-            <button mat-raised-button color="primary" (click)="submit()" [disabled]="loginForm.invalid"> Se connecter </button>
+            <button role="submit" mat-raised-button color="primary" (click)="submit()" [disabled]="loginForm.invalid"> Se connecter </button>
         </form>
     </div>
 </div>
