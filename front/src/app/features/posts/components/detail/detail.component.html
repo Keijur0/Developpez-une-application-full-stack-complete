@@ -36,7 +36,7 @@
                 <mat-form-field class="input-form" appearance="outline">
                     <div class="row">
                         <textarea rows="5" matInput formControlName="message" placeholder="Ecrivez ici votre commentaire"></textarea>
-                        <button class="inner-button" mat-icon-button matSuffix (click)="sendComment()" [disabled]="commentForm!.invalid">
+                        <button class="inner-button" mat-icon-button matSuffix type="submit" [disabled]="commentForm!.invalid">
                             <mat-icon>send</mat-icon>
                         </button>
                     </div>
