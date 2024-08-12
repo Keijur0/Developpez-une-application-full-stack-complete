@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -15,6 +15,8 @@ import { PostService } from '../../services/post.service';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+
+  @ViewChild(FormGroupDirective) formDirective: FormGroupDirective | undefined;
 
   public post: Post | undefined;
   public postId: number;
@@ -54,7 +56,7 @@ export class DetailComponent implements OnInit {
     comment.postId = this.postId;
     this.commentService.createComment(comment).subscribe({
       next: _ => {
-        this.commentForm?.reset();
+        this.formDirective?.resetForm();
         this.matSnackBar.open('Commentaire envoyé avec succès', 'Fermer', { duration: 3000 });
         this.fetchComments();
       }
